@@ -781,7 +781,7 @@ refer to the adapter guide.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">build.report</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">location</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${build}/report</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
 <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">aspectj.version</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.7.4</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;property</span> <span class="attribute-name">name</span> =<span class="error">=</span><span class="error">=</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">ivy.lib.dir</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${basedir}/lib</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span> <span class="attribute-name">name</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">ivy.lib.dir</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${basedir}/lib</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
 <span class="tag">&lt;path</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">lib.path.id</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
   <span class="tag">&lt;fileset</span> <span class="attribute-name">dir</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${ivy.lib.dir}</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
 <span class="tag">&lt;/path&gt;</span>
@@ -907,15 +907,15 @@ method you need to annotate it with <strong>@Title</strong> annotation:</p>
 
 <span class="annotation">@Test</span>
 <span class="annotation">@Description</span>(
-        value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this &lt;a href=</span><span class="delimiter">&quot;</span></span>...<span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;test suite&lt;/a&gt;.</span><span class="delimiter">&quot;</span></span>,
-        type === DescriptionType.HTML
+        value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this &lt;a href=</span><span class="delimiter">&quot;</span></span>...<span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;test suite&lt;/a&gt;.</span><span class="delimiter">&quot;</span></span>,
+        type = DescriptionType.HTML
 )
 <span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
 
     <span class="annotation">@Test</span>
     <span class="annotation">@Description</span>(
-            value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this *test case*.</span><span class="delimiter">&quot;</span></span>,
-            type === DescriptionType.MARKDOWN
+            value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this *test case*.</span><span class="delimiter">&quot;</span></span>,
+            type = DescriptionType.MARKDOWN
     )
     <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
         ...
@@ -978,7 +978,7 @@ a <strong>String</strong> or <strong>byte[]</strong>, which should be added to t
     <span class="keyword">return</span> actionSequence.toString();
 }
 
-<span class="annotation">@Attachment</span>(value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type === <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
     <span class="keyword">return</span> screenShot;
 }</code></pre>
@@ -1066,7 +1066,7 @@ you should use <strong>@Parameter</strong> annotation:</p>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
 
     <span class="annotation">@Parameter</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Base web driver url</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> baseUrl === <span class="string"><span class="delimiter">&quot;</span><span class="content">http://...</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> baseUrl = <span class="string"><span class="delimiter">&quot;</span><span class="content">http://...</span><span class="delimiter">&quot;</span></span>;
 
     <span class="annotation">@Test</span>
     <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
@@ -1262,15 +1262,15 @@ method you need to annotate it with <strong>@Title</strong> annotation:</p>
 
 <span class="annotation">@Test</span>
 <span class="annotation">@Description</span>(
-        value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this &lt;a href=</span><span class="delimiter">&quot;</span></span>...<span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;test suite&lt;/a&gt;.</span><span class="delimiter">&quot;</span></span>,
-        type === DescriptionType.HTML
+        value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this &lt;a href=</span><span class="delimiter">&quot;</span></span>...<span class="string"><span class="delimiter">&quot;</span><span class="content">&gt;test suite&lt;/a&gt;.</span><span class="delimiter">&quot;</span></span>,
+        type = DescriptionType.HTML
 )
 <span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
 
     <span class="annotation">@Test</span>
     <span class="annotation">@Description</span>(
-            value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this *test case*.</span><span class="delimiter">&quot;</span></span>,
-            type === DescriptionType.MARKDOWN
+            value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Detailed description for this *test case*.</span><span class="delimiter">&quot;</span></span>,
+            type = DescriptionType.MARKDOWN
     )
     <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
         ...
@@ -1333,7 +1333,7 @@ a <strong>String</strong> or <strong>byte[]</strong>, which should be added to t
     <span class="keyword">return</span> actionSequence.toString();
 }
 
-<span class="annotation">@Attachment</span>(value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type === <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
     <span class="keyword">return</span> screenShot;
 }</code></pre>
@@ -1421,7 +1421,7 @@ you should use <strong>@Parameter</strong> annotation:</p>
 <span class="directive">public</span> <span class="type">class</span> <span class="class">SearchTest</span> {
 
     <span class="annotation">@Parameter</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Base web driver url</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> baseUrl === <span class="string"><span class="delimiter">&quot;</span><span class="content">http://...</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> baseUrl = <span class="string"><span class="delimiter">&quot;</span><span class="content">http://...</span><span class="delimiter">&quot;</span></span>;
 
     <span class="annotation">@Test</span>
     <span class="directive">public</span> <span class="type">void</span> searchTest() <span class="directive">throws</span> <span class="exception">Exception</span> {
@@ -1523,7 +1523,7 @@ This plugin currently supports only Allure 1.4.x series.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">pytest_plugins === <span class="string"><span class="delimiter">'</span><span class="content">allure.pytest_plugin</span><span class="delimiter">'</span></span>,<span class="error">\</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="python">pytest_plugins = <span class="string"><span class="delimiter">'</span><span class="content">allure.pytest_plugin</span><span class="delimiter">'</span></span>,<span class="error">\</span></code></pre>
 </div>
 </div>
 </div>
@@ -1818,7 +1818,7 @@ py.test my_tests/ --allure_features=feature1,feature2 --allure_stories=story1,st
 
 <span class="decorator">@pytest.fixture</span>(scope=<span class="string"><span class="delimiter">&quot;</span><span class="content">session</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">def</span> <span class="function">app_host_name</span>():
-    host_name === <span class="string"><span class="delimiter">&quot;</span><span class="content">my.host.local</span><span class="delimiter">&quot;</span></span>
+    host_name = <span class="string"><span class="delimiter">&quot;</span><span class="content">my.host.local</span><span class="delimiter">&quot;</span></span>
     allure.environment(hostname=host_name)
     <span class="keyword">return</span> host_name
 
@@ -1966,7 +1966,7 @@ To add such description simply use <strong>@Description</strong> annotation:</p>
 <span class="keyword">class</span> <span class="class">SomeTest</span> <span class="keyword">extends</span> <span class="constant">PHPUnit_Framework_TestCase</span>
 {
     <span class="comment">/**
-     * @Description(value === &quot;Detailed description for &lt;b&gt;test class&lt;/b&gt;.&quot;, type === DescriptionType::HTML)
+     * @Description(value = &quot;Detailed description for &lt;b&gt;test class&lt;/b&gt;.&quot;, type = DescriptionType::HTML)
      */</span>
     <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">testCase</span>()
     {
@@ -1995,7 +1995,7 @@ To add such description simply use <strong>@Description</strong> annotation:</p>
 <span class="keyword">class</span> <span class="class">SomeTest</span> <span class="keyword">extends</span> <span class="constant">PHPUnit_Framework_TestCase</span>
 {
     <span class="comment">/**
-     * @Severity(level === SeverityLevel::MINOR)
+     * @Severity(level = SeverityLevel::MINOR)
      */</span>
     <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">testCase</span>()
     {
@@ -2022,8 +2022,8 @@ you should use <strong>@Parameter</strong> annotation:</p>
 <span class="keyword">class</span> <span class="class">SomeTest</span> <span class="keyword">extends</span> <span class="constant">PHPUnit_Framework_TestCase</span>
 {
     <span class="comment">/**
-     * @Parameter(name === &quot;param1&quot;, value === &quot;value1&quot;)
-     * @Parameter(name === &quot;param2&quot;, value === &quot;value2&quot;, kind === ParameterKind::SYSTEM_PROPERTY)
+     * @Parameter(name = &quot;param1&quot;, value = &quot;value1&quot;)
+     * @Parameter(name = &quot;param2&quot;, value = &quot;value2&quot;, kind = ParameterKind::SYSTEM_PROPERTY)
      */</span>
     <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">testCase</span>()
     {
@@ -2091,14 +2091,14 @@ trait in your test class:</p>
     <span class="keyword">public</span> <span class="keyword">function</span> <span class="function">testCase</span>()
     {
         <span class="comment">//Some implementation here...</span>
-        <span class="local-variable">$filePath</span> === <span class="local-variable">$this</span>-&gt;outputSomeContentToTemporaryFile();
+        <span class="local-variable">$filePath</span> = <span class="local-variable">$this</span>-&gt;outputSomeContentToTemporaryFile();
         <span class="local-variable">$this</span>-&gt;addAttachment(<span class="local-variable">$filePath</span>, <span class="string"><span class="delimiter">'</span><span class="content">Attachment human-readable name</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">text/plain</span><span class="delimiter">'</span></span>);
         <span class="comment">//Some implementation here...</span>
     }
 
     <span class="keyword">private</span> <span class="keyword">function</span> <span class="function">outputSomeContentToTemporaryFile</span>()
     {
-        <span class="local-variable">$tmpPath</span> === <span class="predefined">tempnam</span>(sys_get_temp_dir(), <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">$tmpPath</span> = <span class="predefined">tempnam</span>(sys_get_temp_dir(), <span class="string"><span class="delimiter">'</span><span class="content">test</span><span class="delimiter">'</span></span>);
         <span class="predefined">file_put_contents</span>(<span class="local-variable">$tmpPath</span>, <span class="string"><span class="delimiter">'</span><span class="content">Some content to be outputted to temporary file.</span><span class="delimiter">'</span></span>);
         <span class="keyword">return</span> <span class="local-variable">$tmpPath</span>;
     }
@@ -2190,7 +2190,7 @@ allows to have much more cleaner understanding of what really happens. In order 
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript"><span class="comment">// conf.js</span>
-<span class="keyword">var</span> AllureReporter === require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
+<span class="keyword">var</span> AllureReporter = require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
 jasmine.getEnv().addReporter(<span class="keyword">new</span> AllureReporter({
   <span class="key">resultsDir</span>: <span class="string"><span class="delimiter">'</span><span class="content">allure-results</span><span class="delimiter">'</span></span>
 }));</code></pre>
@@ -2205,10 +2205,10 @@ jasmine.getEnv().addReporter(<span class="keyword">new</span> AllureReporter({
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript"><span class="comment">// conf.js</span>
-exports.config === {
+exports.config = {
   <span class="key">framework</span>: <span class="string"><span class="delimiter">'</span><span class="content">jasmine2</span><span class="delimiter">'</span></span>,
   <span class="function">onPrepare</span>: <span class="keyword">function</span>() {
-    <span class="keyword">var</span> AllureReporter === require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
+    <span class="keyword">var</span> AllureReporter = require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
     jasmine.getEnv().addReporter(<span class="keyword">new</span> AllureReporter({
       <span class="key">resultsDir</span>: <span class="string"><span class="delimiter">'</span><span class="content">allure-results</span><span class="delimiter">'</span></span>
     }));
@@ -2397,7 +2397,7 @@ text files.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">  <span class="function">onPrepare</span>: <span class="keyword">function</span> () {
-    <span class="keyword">var</span> AllureReporter === require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
+    <span class="keyword">var</span> AllureReporter = require(<span class="string"><span class="delimiter">'</span><span class="content">jasmine-allure-reporter</span><span class="delimiter">'</span></span>);
     jasmine.getEnv().addReporter(<span class="keyword">new</span> AllureReporter());
     jasmine.getEnv().afterEach(<span class="keyword">function</span>(done){
       browser.takeScreenshot().then(<span class="keyword">function</span> (png) {
@@ -2546,7 +2546,7 @@ To change this add the following in <code>features/support/env.rb</code> file:</
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="ruby"><span class="constant">AllureCucumber</span>.configure <span class="keyword">do</span> |c|
-   c.output_dir === <span class="string"><span class="delimiter">&quot;</span><span class="content">/output/dir</span><span class="delimiter">&quot;</span></span>
+   c.output_dir = <span class="string"><span class="delimiter">&quot;</span><span class="content">/output/dir</span><span class="delimiter">&quot;</span></span>
 <span class="keyword">end</span></code></pre>
 </div>
 </div>
@@ -2556,7 +2556,7 @@ To change this add the following in <code>features/support/env.rb</code> file:</
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="ruby"><span class="constant">AllureCucumber</span>.configure <span class="keyword">do</span> |c|
-  c.clean_dir  === <span class="predefined-constant">false</span>
+  c.clean_dir  = <span class="predefined-constant">false</span>
 <span class="keyword">end</span></code></pre>
 </div>
 </div>
@@ -2566,9 +2566,9 @@ To change this add the following in <code>features/support/env.rb</code> file:</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="ruby">    <span class="constant">DEFAULT_TMS_PREFIX</span>      === <span class="string"><span class="delimiter">'</span><span class="content">@TMS:</span><span class="delimiter">'</span></span>
-    <span class="constant">DEFAULT_ISSUE_PREFIX</span>    === <span class="string"><span class="delimiter">'</span><span class="content">@ISSUE:</span><span class="delimiter">'</span></span>
-    <span class="constant">DEFAULT_SEVERITY_PREFIX</span> === <span class="string"><span class="delimiter">'</span><span class="content">@SEVERITY:</span><span class="delimiter">'</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="ruby">    <span class="constant">DEFAULT_TMS_PREFIX</span>      = <span class="string"><span class="delimiter">'</span><span class="content">@TMS:</span><span class="delimiter">'</span></span>
+    <span class="constant">DEFAULT_ISSUE_PREFIX</span>    = <span class="string"><span class="delimiter">'</span><span class="content">@ISSUE:</span><span class="delimiter">'</span></span>
+    <span class="constant">DEFAULT_SEVERITY_PREFIX</span> = <span class="string"><span class="delimiter">'</span><span class="content">@SEVERITY:</span><span class="delimiter">'</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2588,10 +2588,10 @@ To change this add the following in <code>features/support/env.rb</code> file:</
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="ruby"><span class="constant">AllureCucumber</span>.configure <span class="keyword">do</span> |c|
-  c.clean_dir  === <span class="predefined-constant">false</span>
-  c.tms_prefix      === <span class="string"><span class="delimiter">'</span><span class="content">@HIPTEST--</span><span class="delimiter">'</span></span>
-  c.issue_prefix    === <span class="string"><span class="delimiter">'</span><span class="content">@JIRA++</span><span class="delimiter">'</span></span>
-  c.severity_prefix === <span class="string"><span class="delimiter">'</span><span class="content">@URGENCY:</span><span class="delimiter">'</span></span>
+  c.clean_dir  = <span class="predefined-constant">false</span>
+  c.tms_prefix      = <span class="string"><span class="delimiter">'</span><span class="content">@HIPTEST--</span><span class="delimiter">'</span></span>
+  c.issue_prefix    = <span class="string"><span class="delimiter">'</span><span class="content">@JIRA++</span><span class="delimiter">'</span></span>
+  c.severity_prefix = <span class="string"><span class="delimiter">'</span><span class="content">@URGENCY:</span><span class="delimiter">'</span></span>
 <span class="keyword">end</span></code></pre>
 </div>
 </div>
@@ -2663,11 +2663,11 @@ Allure report version supported : 1.4.15
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> reporter === require(<span class="string"><span class="delimiter">'</span><span class="content">cucumberjs-allure-reporter</span><span class="delimiter">'</span></span>);
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> reporter = require(<span class="string"><span class="delimiter">'</span><span class="content">cucumberjs-allure-reporter</span><span class="delimiter">'</span></span>);
 reporter.config(
     {...}
 );
-module.exports === reporter;</code></pre>
+module.exports = reporter;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2820,7 +2820,7 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
 <div class="ulist">
 <ul>
 <li>
-<p>peer dependency for cucumber (&gt;=== 1.2.0) added</p>
+<p>peer dependency for cucumber (&gt;= 1.2.0) added</p>
 </li>
 </ul>
 </div>
@@ -2987,7 +2987,7 @@ the one of the <code>Given</code>/<code>When</code>/<code>Then</code> step metho
     <span class="keyword">return</span> actionSequence.toString();
 }
 
-<span class="annotation">@Attachment</span>(value === <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type === <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@Attachment</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">Page screenshot</span><span class="delimiter">&quot;</span></span>, type = <span class="string"><span class="delimiter">&quot;</span><span class="content">image/png</span><span class="delimiter">&quot;</span></span>)
 <span class="directive">public</span> <span class="type">byte</span><span class="type">[]</span> saveScreenshot(<span class="type">byte</span><span class="type">[]</span> screenShot) {
     <span class="keyword">return</span> screenShot;
 }</code></pre>
@@ -3113,7 +3113,7 @@ result files location relatively to base dir. By default, files save right in th
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript"><span class="comment">// karma.conf.js</span>
-module.exports === <span class="keyword">function</span>(config) {
+module.<span class="function">exports</span> = <span class="keyword">function</span>(config) {
   config.set({
     <span class="key">reporters</span>: [<span class="string"><span class="delimiter">'</span><span class="content">progress</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">allure</span><span class="delimiter">'</span></span>],
 
@@ -3599,10 +3599,10 @@ example</a> project to take a quick tour.</p>
 <p>0.5.x - for RSpec2.</p>
 </li>
 <li>
-<p>&#8656;== 0.6.7 - for RSpec &lt; 3.2.</p>
+<p>&#8656; 0.6.7 - for RSpec &lt; 3.2.</p>
 </li>
 <li>
-<p>&gt;=== 0.6.9 - for RSpec &gt;=== 3.2.</p>
+<p>&gt;= 0.6.9 - for RSpec &gt;= 3.2.</p>
 </li>
 </ul>
 </div>
@@ -3631,9 +3631,9 @@ within your current directory.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="ruby">    <span class="constant">AllureRSpec</span>.configure <span class="keyword">do</span> |c|
-      c.output_dir === <span class="string"><span class="delimiter">&quot;</span><span class="content">/whatever/you/like</span><span class="delimiter">&quot;</span></span> <span class="comment"># default: gen/allure-results</span>
-      c.clean_dir === <span class="predefined-constant">false</span> <span class="comment"># clean the output directory first? (default: true)</span>
-      c.logging_level === <span class="constant">Logger</span>::<span class="constant">DEBUG</span> <span class="comment"># logging level (default: DEBUG)</span>
+      c.output_dir = <span class="string"><span class="delimiter">&quot;</span><span class="content">/whatever/you/like</span><span class="delimiter">&quot;</span></span> <span class="comment"># default: gen/allure-results</span>
+      c.clean_dir = <span class="predefined-constant">false</span> <span class="comment"># clean the output directory first? (default: true)</span>
+      c.logging_level = <span class="constant">Logger</span>::<span class="constant">DEBUG</span> <span class="comment"># logging level (default: DEBUG)</span>
     <span class="keyword">end</span></code></pre>
 </div>
 </div>
@@ -3649,7 +3649,7 @@ within your current directory.</p>
   <span class="keyword">end</span>
 
   it <span class="string"><span class="delimiter">&quot;</span><span class="content">should be critical</span><span class="delimiter">&quot;</span></span>, <span class="symbol">:story</span> =&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">First story</span><span class="delimiter">&quot;</span></span>, <span class="symbol">:severity</span> =&gt; <span class="symbol">:critical</span>, <span class="symbol">:testId</span> =&gt; <span class="integer">99</span> <span class="keyword">do</span>
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">string</span><span class="delimiter">&quot;</span></span>.should ==== <span class="string"><span class="delimiter">&quot;</span><span class="content">string</span><span class="delimiter">&quot;</span></span>
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">string</span><span class="delimiter">&quot;</span></span>.should == <span class="string"><span class="delimiter">&quot;</span><span class="content">string</span><span class="delimiter">&quot;</span></span>
   <span class="keyword">end</span>
 
   it <span class="string"><span class="delimiter">&quot;</span><span class="content">should be steps enabled</span><span class="delimiter">&quot;</span></span>, <span class="symbol">:story</span> =&gt; [<span class="string"><span class="delimiter">&quot;</span><span class="content">First story</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Second story</span><span class="delimiter">&quot;</span></span>], <span class="symbol">:testId</span> =&gt; <span class="integer">31</span> <span class="keyword">do</span> |e|
@@ -3663,7 +3663,7 @@ within your current directory.</p>
     <span class="keyword">end</span>
 
     e.step <span class="string"><span class="delimiter">&quot;</span><span class="content">step3</span><span class="delimiter">&quot;</span></span> <span class="keyword">do</span>
-      <span class="integer">0</span>.should ==== <span class="integer">0</span>
+      <span class="integer">0</span>.should == <span class="integer">0</span>
     <span class="keyword">end</span>
 
     e.attach_file <span class="string"><span class="delimiter">&quot;</span><span class="content">screenshot2</span><span class="delimiter">&quot;</span></span>, take_screenshot_as_file
@@ -3693,7 +3693,7 @@ dependency to build.sbt:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="scala">libraryDependencies +=== &quot;ru.yandex.qatools.allure&quot; % &quot;allure-scalatest_2.10&quot; % &quot;1.4.0-SNAPSHOT&quot;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="scala">libraryDependencies += &quot;ru.yandex.qatools.allure&quot; % &quot;allure-scalatest_2.10&quot; % &quot;1.4.0-SNAPSHOT&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3701,7 +3701,7 @@ dependency to build.sbt:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="scala">testOptions in Test ++=== Seq(
+<pre class="CodeRay highlight"><code data-lang="scala">testOptions in Test ++= Seq(
     Tests.Argument(TestFrameworks.ScalaTest, &quot;-oD&quot;),
     Tests.Argument(TestFrameworks.ScalaTest, &quot;-C&quot;, &quot;ru.yandex.qatools.allure.scalatest.AllureReporter&quot;)
 )</code></pre>
@@ -3748,7 +3748,7 @@ javax.xml.bind.PropertyException: name: com.sun.xml.bind.marshaller.CharacterEsc
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="scala">credentials +=== Credentials(&quot;Sonatype Nexus Repository Manager&quot;,
+<pre class="CodeRay highlight"><code data-lang="scala">credentials += Credentials(&quot;Sonatype Nexus Repository Manager&quot;,
                            &quot;oss.sonatype.org&quot;,
                            &quot;login&quot;,
                            &quot;password&quot;)</code></pre>
@@ -3784,7 +3784,7 @@ report generation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="scala">libraryDependencies +=== &quot;ru.yandex.qatools.allure&quot; % &quot;allure-specs2_2.10&quot; % &quot;1.4.0-SNAPSHOT&quot;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="scala">libraryDependencies += &quot;ru.yandex.qatools.allure&quot; % &quot;allure-specs2_2.10&quot; % &quot;1.4.0-SNAPSHOT&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3792,7 +3792,7 @@ report generation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="scala">testOptions in Test ++=== Seq(
+<pre class="CodeRay highlight"><code data-lang="scala">testOptions in Test ++= Seq(
   Tests.Argument(TestFrameworks.Specs2, &quot;notifier&quot;, &quot;ru.yandex.qatools.allure.specs2.AllureNotifier&quot;)
 )</code></pre>
 </div>
@@ -4425,15 +4425,15 @@ image::teamcity_plugin_usage.png[jenkins plugin install]</p>
 apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">ru.d10xa.allure</span><span class="delimiter">'</span></span>
 
 allure {
-    aspectjweaver === <span class="predefined-constant">true</span>
+    aspectjweaver = <span class="predefined-constant">true</span>
 
     <span class="comment">// Choose your test framework.</span>
-    junit === <span class="predefined-constant">true</span>
-    testNG === <span class="predefined-constant">false</span>
-    spock === <span class="predefined-constant">false</span>
+    junit = <span class="predefined-constant">true</span>
+    testNG = <span class="predefined-constant">false</span>
+    spock = <span class="predefined-constant">false</span>
 
     <span class="comment">// Choose if you're using Geb for web tests</span>
-    geb === <span class="predefined-constant">true</span>
+    geb = <span class="predefined-constant">true</span>
 }</code></pre>
 </div>
 </div>
@@ -4443,23 +4443,23 @@ allure {
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">allure {
-    aspectjweaver === <span class="predefined-constant">true</span>
+    aspectjweaver = <span class="predefined-constant">true</span>
 
-    junit === <span class="predefined-constant">true</span>
-    testNG === <span class="predefined-constant">false</span>
-    spock === <span class="predefined-constant">false</span>
+    junit = <span class="predefined-constant">true</span>
+    testNG = <span class="predefined-constant">false</span>
+    spock = <span class="predefined-constant">false</span>
 
-    geb === <span class="predefined-constant">false</span>
+    geb = <span class="predefined-constant">false</span>
 
-    allureResultsDir === <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-results</span><span class="delimiter">&quot;</span></span>
-    allureReportDir === <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-report</span><span class="delimiter">&quot;</span></span>
+    allureResultsDir = <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-results</span><span class="delimiter">&quot;</span></span>
+    allureReportDir = <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>buildDir</span><span class="content">/allure-report</span><span class="delimiter">&quot;</span></span>
 
-    allureVersion === <span class="string"><span class="delimiter">&quot;</span><span class="content">1.4.24.RC3</span><span class="delimiter">&quot;</span></span>
-    aspectjVersion === <span class="string"><span class="delimiter">&quot;</span><span class="content">1.8.9</span><span class="delimiter">&quot;</span></span>
-    allureSpockGebExtensionVersion === <span class="string"><span class="delimiter">&quot;</span><span class="content">0.2.1</span><span class="delimiter">&quot;</span></span>
-    allureJunitAspectjAdaptorVersion === <span class="string"><span class="delimiter">&quot;</span><span class="content">0.1.1</span><span class="delimiter">&quot;</span></span>
+    allureVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">1.4.24.RC3</span><span class="delimiter">&quot;</span></span>
+    aspectjVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">1.8.9</span><span class="delimiter">&quot;</span></span>
+    allureSpockGebExtensionVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">0.2.1</span><span class="delimiter">&quot;</span></span>
+    allureJunitAspectjAdaptorVersion = <span class="string"><span class="delimiter">&quot;</span><span class="content">0.1.1</span><span class="delimiter">&quot;</span></span>
 
-    clean === <span class="predefined-constant">true</span>
+    clean = <span class="predefined-constant">true</span>
 }</code></pre>
 </div>
 </div>
@@ -4712,7 +4712,7 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-03-01 10:38:16 +00:00
+Last updated 2017-03-05 12:06:58 +00:00
 </div>
 </div>
 </body>
