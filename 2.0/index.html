@@ -2828,12 +2828,12 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
 <div class="sect2">
 <h3 id="_cucumber_jvm">3.8. Cucumber JVM</h3>
 <div class="sect3">
-<h4 id="_allure_cucumber_jvm_adaptor_junit">3.8.1. Allure Cucumber-JVM Adaptor (JUnit)</h4>
+<h4 id="_allure_cucumber_jvm_plugin">3.8.1. Allure Cucumber-JVM Plugin</h4>
 <div class="paragraph">
-<p>This adaptor allows to generate allure xml reports after cucumber-jvm Junit test execution.</p>
+<p>This plugin allows to generate allure xml reports after cucumber-jvm test execution.</p>
 </div>
 <div class="sect4">
-<h5 id="_example_project_2">Example project</h5>
+<h5 id="_example_projects_junit_and_testng">Example projects (JUnit and TestNG)</h5>
 <div class="paragraph">
 <p>Example project is located at: <a href="https://github.com/allure-examples/allure-cucumber-jvm-example" class="bare">https://github.com/allure-examples/allure-cucumber-jvm-example</a></p>
 </div>
@@ -2844,8 +2844,7 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
 <div class="sect4">
 <h5 id="_maven_3">Maven</h5>
 <div class="paragraph">
-<p>Simply add <code>allure-allure-cucumber-jvm-adaptor</code> as dependency to your project and add <code>build</code> section
- with adaptor listener:</p>
+<p>Simply add <code>allure-cucumber-jvm</code> plugin as dependency to your project and add it to CucumberOptions:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2853,9 +2852,9 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
 ...
     <span class="tag">&lt;dependencies&gt;</span>
         <span class="tag">&lt;dependency&gt;</span>
-            <span class="tag">&lt;groupId&gt;</span>ru.yandex.qatools.allure<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;artifactId&gt;</span>allure-cucumber-jvm-adaptor<span class="tag">&lt;/artifactId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>1.5.1<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>allure-cucumber-jvm<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>2.0-BETA2<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;/dependency&gt;</span>
     <span class="tag">&lt;/dependencies&gt;</span>
         <span class="tag">&lt;build&gt;</span>
@@ -2863,24 +2862,19 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
             <span class="tag">&lt;plugin&gt;</span>
                 <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
                 <span class="tag">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="tag">&lt;/artifactId&gt;</span>
-                <span class="tag">&lt;version&gt;</span>2.18.1<span class="tag">&lt;/version&gt;</span>
+                <span class="tag">&lt;version&gt;</span>2.19.1<span class="tag">&lt;/version&gt;</span>
                 <span class="tag">&lt;configuration&gt;</span>
                     <span class="tag">&lt;testFailureIgnore&gt;</span>false<span class="tag">&lt;/testFailureIgnore&gt;</span>
                     <span class="tag">&lt;argLine&gt;</span>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                        -Dcucumber.options=&quot;--plugin io.qameta.allure.cucumberjvm.AllureCucumberJvm&quot;
                     <span class="tag">&lt;/argLine&gt;</span>
-                    <span class="tag">&lt;properties&gt;</span>
-                        <span class="tag">&lt;property&gt;</span>
-                            <span class="tag">&lt;name&gt;</span>listener<span class="tag">&lt;/name&gt;</span>
-                            <span class="tag">&lt;value&gt;</span>ru.yandex.qatools.allure.cucumberjvm.AllureRunListener<span class="tag">&lt;/value&gt;</span>
-                        <span class="tag">&lt;/property&gt;</span>
-                    <span class="tag">&lt;/properties&gt;</span>
                 <span class="tag">&lt;/configuration&gt;</span>
                 <span class="tag">&lt;dependencies&gt;</span>
                     <span class="tag">&lt;dependency&gt;</span>
                         <span class="tag">&lt;groupId&gt;</span>org.aspectj<span class="tag">&lt;/groupId&gt;</span>
                         <span class="tag">&lt;artifactId&gt;</span>aspectjweaver<span class="tag">&lt;/artifactId&gt;</span>
-                        <span class="tag">&lt;version&gt;</span>1.7.4<span class="tag">&lt;/version&gt;</span>
+                        <span class="tag">&lt;version&gt;</span>1.8.4<span class="tag">&lt;/version&gt;</span>
                     <span class="tag">&lt;/dependency&gt;</span>
                 <span class="tag">&lt;/dependencies&gt;</span>
             <span class="tag">&lt;/plugin&gt;</span>
@@ -2890,8 +2884,9 @@ run tests: <code>./node_modules/protractor/bin/protractor miscellaneous/protract
 </div>
 </div>
 <div class="paragraph">
-<p>Then execute <code>mvn clean test</code> goal. After tests executed allure xml files will be
-placed in <code>target/allure-results/</code> directory</p>
+<p>Then execute <code>mvn clean test</code> goal. After tests executed allure xml files will be<br>
+placed in <code>allure-results</code> directory by default. It can be overridden by setting <code>allure.results.directory</code><br>
+system property.</p>
 </div>
 </div>
 </div>
@@ -2908,32 +2903,14 @@ placed in <code>target/allure-results/</code> directory</p>
 </div>
 <div class="sect4">
 <h5 id="_description_4">Description</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Description specifications are not supported
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Feature&#8217;s description appears on every scenario</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_steps_5">Steps</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Allure @Step annotations are not supported, cucumber steps are used as is.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>All scenario steps are automatically translated into allure steps</p>
 </div>
 </div>
 <div class="sect4">
@@ -2941,7 +2918,7 @@ Allure @Step annotations are not supported, cucumber steps are used as is.
 <div class="paragraph">
 <p>An attachment in Java code is simply a method annotated with <strong>@Attachment</strong> that returns either
 a <strong>String</strong> or <strong>byte[]</strong>, which should be added to the report. You can call this method from
-the one of the <code>Given</code>/<code>When</code>/<code>Then</code> step methods.</p>
+the one of the step definition methods or in after/before methods.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2957,82 +2934,63 @@ the one of the <code>Given</code>/<code>When</code>/<code>Then</code> step metho
 </div>
 </div>
 <div class="paragraph">
-<p>If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong>
-on return value to get attachment contents.</p>
+<p>If return type in a method annotated with <strong>@Attachment</strong> differs from <strong>String</strong> or <strong>byte[]</strong> we call <strong>toString()</strong><br>
+on return value to get attachment contents.<br></p>
 </div>
 <div class="paragraph">
-<p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation
-like shown above. However there&#8217;s no need to explicitly specify attachment type for all attached files as Allure
-by default analyses attachment contents and can determine attachment type automatically. You usually need to
+<p>You can specify exact MIME type for each attached file using <strong>type</strong> parameter of <strong>@Attachment</strong> annotation<br>
+like shown above. However, there&#8217;s no need to explicitly specify attachment type for all attached files as Allure<br>
+by default analyses attachment contents and can determine attachment type automatically. You usually need to<br>
 specify attachment type when working with plain text files.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_issues_tracker_5">Issues Tracker</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Bug tracker integration is not supported
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To pass issues to report, just add <code>@issue=&lt;ISSUE-NUMBER&gt;</code> on top of Scenario on Feature in your .feature file.<br>
+URL template for the issue tracker should be set via <code>allure.link.issue.pattern = <a href="https://example.org/{}" class="bare">https://example.org/{}</a></code> system<br>
+property.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_test_management_system_5">Test Management System</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Test management system is not supported
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_parameters_4">Parameters</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Additional annotations for parameters are not supported
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To pass TMS links to report, just add <code>@tmsLink=&lt;TEST-CASE-ID&gt;</code> on top of Scenario on Feature in your .feature file.<br>
+URL template for the TMS should be set via <code>allure.link.tms.pattern = <a href="https://example.org/{}" class="bare">https://example.org/{}</a></code> system property.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_severity_5">Severity</h5>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Severity annotations are not supported
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>To set severity, add <code>@severity=blocker</code> on top of Scenario on Feature in your .feature file.<br>
+If severity has wrong value it will be forced to normal (default).</p>
+</div>
+<div class="paragraph">
+<p>Supported severity values: <code>blocker</code>, <code>critical</code>, <code>normal</code>, <code>minor</code>, <code>trivial</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scenario_attributes">Scenario Attributes</h5>
+<div class="paragraph">
+<p>Every Feature or Scenario can be annotated by following tags: <code>@flaky</code>, <code>@muted</code>, <code>@known</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_before_after">Before/After</h5>
+<div class="paragraph">
+<p>All methods annotated by <code>@import cucumber.api.java.After</code> or <code>@cucumber.api.java.Before</code> annotations<br>
+will appear in the report as steps with method names.<br>
+If @Before execution fails, the scenario will be marked as skipped.<br>
+If @After execution fails, the scenario will be marked as passed, and only <code>After</code> method&#8217;s step<br>
+will be marked as failed.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_behaviours_mapping_4">Behaviours Mapping</h5>
 <div class="paragraph">
 <p>In some development approaches tests are classified by
-<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#user-story">stories</a>
-and <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#feature">features</a>.
+<a href="https://github.com/allure-framework/allure-core/wiki/Glossary#feature">features</a>
+and <a href="https://github.com/allure-framework/allure-core/wiki/Glossary#user-story">stories</a>.<br>
 Allure report for cucumber jvm uses information extracted from <code>Feature:</code> section</p>
 </div>
 </div>
@@ -3643,7 +3601,7 @@ within your current directory.</p>
 [Allure report generation](<a href="https://github.com/allure-framework/allure-core/wiki#generating-report" class="bare">https://github.com/allure-framework/allure-core/wiki#generating-report</a>).</p>
 </div>
 <div class="sect3">
-<h4 id="_example_project_3">3.15.1. Example project</h4>
+<h4 id="_example_project_2">3.15.1. Example project</h4>
 <div class="paragraph">
 <p>Example project is located at: <a href="https://github.com/allure-framework/allure-scalatest-example" class="bare">https://github.com/allure-framework/allure-scalatest-example</a></p>
 </div>
@@ -3734,7 +3692,7 @@ javax.xml.bind.PropertyException: name: com.sun.xml.bind.marshaller.CharacterEsc
 report generation.</p>
 </div>
 <div class="sect3">
-<h4 id="_example_project_4">3.16.1. Example project</h4>
+<h4 id="_example_project_3">3.16.1. Example project</h4>
 <div class="paragraph">
 <p>Example project is located at: <a href="https://github.com/allure-framework/allure-specs-example" class="bare">https://github.com/allure-framework/allure-specs-example</a></p>
 </div>
@@ -3795,7 +3753,7 @@ See <a href="https://github.com/allure-framework/allure-core/wiki#generating-rep
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_project_5">3.18.2. Example project</h4>
+<h4 id="_example_project_4">3.18.2. Example project</h4>
 <div class="paragraph">
 <p>Example project is located at: <a href="https://github.com/allure-examples/allure-codeception-example" class="bare">https://github.com/allure-examples/allure-codeception-example</a></p>
 </div>
@@ -4675,7 +4633,7 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-03-19 18:18:52 +00:00
+Last updated 2017-03-22 11:08:14 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
