@@ -4237,52 +4237,34 @@ If you are want to use the report from different location you can use <strong>-o
 <h3 id="_jenkins">5.2. Jenkins</h3>
 <div class="sect3">
 <h4 id="_installation_8">5.2.1. Installation</h4>
+<div class="paragraph">
+<p>First part of installation guide concerns global installation of Allure plugin and it&#8217;s
+commandline tool. Note that unlike to previous versions Jenkins Allure Plugin since 2.11
+does not require to configure Jenkins Content Security Policy properties.</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install <a href="https://wiki.jenkins-ci.org/display/JENKINS/Allure+Plugin">Allure Plugin</a> from "Plugin Manager Page".</p>
+<p>Install the latest version of <a href="https://wiki.jenkins-ci.org/display/JENKINS/Allure+Plugin">Allure Plugin</a>
+from "Plugin Manager" page.</p>
 </li>
 <li>
-<p>Open Plugin Advanced Settings <a href="http://&lt;jenkins_host&gt;/pluginManager/advanced" class="bare">http://&lt;jenkins_host&gt;/pluginManager/advanced</a>.</p>
+<p>Open Plugin Advanced Settings (at <strong>&lt;your_jenkins_host&gt;/pluginManager/advanced</strong>).</p>
 </li>
 <li>
 <p>Click "Check Updates" button on the bottom right corner of the page.</p>
 </li>
 <li>
-<p>Configure Allure Commandline from "Jenkins Configure Page".</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_install.jpeg" alt="Jenkins Plugin Install">
-</div>
-</div>
+<p>Configure Allure Commandline from "Global Tools Configuration".</p>
 </li>
 </ol>
 </div>
 <div class="sect4">
-<h5 id="_configure_jenkins_content_security">Configure Jenkins Content Security</h5>
-<div class="paragraph">
-<p>By default, Jenkins sets Content Security Policy for plugin pages. Allure requires less strict policy, you can set it via system property.</p>
-</div>
-<div class="paragraph">
-<p>If you haven&#8217;t done it before, add the following to Jenkins system properties configuration (you need to set both Hudson and Jenkins properties to make it works):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">&quot;-Dhudson.model.DirectoryBrowserSupport.CSP=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';&quot;
-&quot;-Djenkins.model.DirectoryBrowserSupport.CSP=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';&quot;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can read more about it in the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Configuring+Content+Security+Policy">Jenkins</a>
-docs and find details in <a href="https://github.com/allure-framework/allure-core/issues/715">issue #715</a> in the Github repository of allure-core.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_build_agents_have_connection_to_maven_central">Build agents have connection to maven central</h5>
+<h5 id="_build_agents_have_connection_to_maven_repository_with_allure_distribution">Build agents have connection to Maven repository with Allure distribution</h5>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open "Jenkins Configure Page".</p>
+<p>Open "Global Tool Configuration".</p>
 </li>
 <li>
 <p>Find "Allure Commandline" configuration block.</p>
@@ -4293,47 +4275,40 @@ docs and find details in <a href="https://github.com/allure-framework/allure-cor
 </div>
 </li>
 <li>
-<p>Click "Allure Commandline Installations&#8230;&#8203;" button.</p>
+<p>Click "Add Allure Commandline" button.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
+<img src="images/jenkins_plugin_install.jpeg" alt="Install Allure Commandline">
 </div>
 </div>
 </li>
 <li>
-<p>Fill the name and choose the version of allure report.</p>
+<p>Fill the name and choose the version in the "From Maven Central" dropdown.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_build_agents_have_not_connection_to_maven_central">Build agents have NOT connection to maven central</h5>
+<h5 id="_downloading_and_installing_allure_from_archive">Downloading and installing Allure from archive</h5>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Download the latest version of allure-commandline.zip from github.</p>
+<p>Download latest version of allure-commandline.zip from the
+<a href="https://github.com/allure-framework/allure2/releases">github releases page</a>.</p>
 </li>
 <li>
-<p>Upload downloaded file to any file server. Build agents must have access to the file by url. For example, <strong><a href="http://mycompany.com/allure-commandline.zip" class="bare">http://mycompany.com/allure-commandline.zip</a></strong></p>
+<p>Upload downloaded file to any file server. Build agents must have access to the file by url.</p>
 </li>
 <li>
-<p>Open "Jenkins Configure Page". and find "Allure Commandline" configuration block.</p>
+<p>Open "Global Tool Configuration". and find "Allure Commandline" configuration block.</p>
+</li>
+<li>
+<p>Click "Add Allure Commandline" button.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
 </div>
 </div>
-</li>
-<li>
-<p>Click "Allure Commandline Installations&#8230;&#8203;" button.</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
-</div>
-</div>
-</li>
-<li>
-<p>Click "Delete Installer" button.</p>
 </li>
 <li>
 <p>Click "Add Installer" and choose "Extract <strong>.zip/</strong>.tar.gz".</p>
@@ -4344,7 +4319,8 @@ docs and find details in <a href="https://github.com/allure-framework/allure-cor
 </div>
 </li>
 <li>
-<p>Fill the name and download url.</p>
+<p>Fill the name and download url. Mind that Jenkins will check the provided url immediately and show a warning
+if it&#8217;s not available.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/jenkins_plugin_fill_name_and_url.jpeg" alt="Install Allure Commanline">
@@ -4365,13 +4341,13 @@ docs and find details in <a href="https://github.com/allure-framework/allure-cor
 <p>Open job configuration page.</p>
 </li>
 <li>
-<p>Ensure that your build generates <a href="https://github.com/allure-framework/allure-core/wiki#gathering-information-about-tests">Allure XML files</a>.</p>
+<p>Ensure that your build generates some data in one of the formats digestible for Allure Commandline tool.</p>
 </li>
 <li>
 <p>Add <strong>Allure Report</strong> post build action.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_add_allure_report.jpeg" alt="Install Allure Commanline">
+<img src="images/jenkins_plugin_add_allure_report.jpeg" alt="Select "Allure Report" post-build action">
 </div>
 </div>
 </li>
@@ -4387,79 +4363,92 @@ docs and find details in <a href="https://github.com/allure-framework/allure-cor
 </div>
 </div>
 <div class="sect4">
-<h5 id="_tms_integration">TMS integration</h5>
+<h5 id="_test_management_and_bug_tracking_systems_integrations">Test Management and Bug-Tracking systems integrations</h5>
+<div class="paragraph">
+<p>Currently all versions of Allure support setting of url patterns to make direct links
+to your TMS or bug-tracker available from the report. (Learn more about this integrations link-[here])
+It may be done by setting special system properties:</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open Job Configure Page.</p>
-</li>
-<li>
-<p>Find Allure Report configuration section.</p>
-</li>
-<li>
-<p>Setup <strong>allure.tests.management.pattern</strong> property:</p>
+<p><strong>allure.tests.management.pattern</strong> property:</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_setup_tms.jpeg" alt="Install Allure Commanline">
+<img src="images/jenkins_plugin_setup_tms.jpeg" alt="Filling TMS link property">
+</div>
+</div>
+</li>
+<li>
+<p><strong>allure.issues.tracker.pattern</strong> property:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_setup_tracker.jpeg" alt="Filling bug-tracker link property">
 </div>
 </div>
 </li>
 </ol>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_issue_tracker_integration">Issue Tracker integration</h5>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open Job Configure Page.</p>
-</li>
-<li>
-<p>Find Allure Report configuration section.</p>
-</li>
-<li>
-<p>Setup <strong>allure.issues.tracker.pattern</strong> property:</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_setup_tracker.jpeg" alt="Install Allure Commanline">
-</div>
-</div>
-</li>
-</ol>
+<div class="paragraph">
+<p>in both patterns <strong>%s</strong> will be substituted for a string value obtained from the label added to test case.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_advanced_options_2">Advanced Options</h5>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="paragraph">
+<p>"Advanced&#8230;&#8203;" button provides you with several additional settings:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>Open Job Configure Page.</p>
+<p>jdk to use</p>
 </li>
 <li>
-<p>Find Allure Report configuration section.</p>
+<p>build policy value</p>
 </li>
 <li>
-<p>Click "Advanced&#8230;&#8203;" button if you need custom settings of commadline, jdk or build policy</p>
+<p>include environment flag  - <strong>currently is not implemented</strong></p>
+</li>
+</ul>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_advanced_options.jpeg" alt="Install Allure Commanline">
+<img src="images/jenkins_plugin_advanced_options.jpeg" alt="Allure build step advanced options">
 </div>
-</div>
-</li>
-</ol>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_usage_7">5.2.3. Usage</h4>
 <div class="paragraph">
-<p>When build is finished a link to Allure report will appear on the build page:
-image::jenkins_plugin_allure_sidebar.png[Install Allure Commanline]
-image::jenkins_plugin_allure_report.png[install allure commanline]</p>
+<p>When build is finished a link to Allure report will appear on the build page and also in the build history entries:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_allure_sidebar.png" alt="Install Allure Commanline">
+</div>
+</div>
+<div class="paragraph">
+<p>Generated Allure report is stored in the artifacts folder of the build and can be processed
+the same way as all the other artifacts, or downloaded as .zip archive.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_allure_report.png" alt="install allure commanline">
+</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_extensions">5.2.4. Extensions</h4>
+<h4 id="_history_files">5.2.4. History files</h4>
+<div class="paragraph">
+<p>Allure since version 2 supports history for tests in the report [Learn more about History plugin].
+At the every report generation during the build Jenkins Allure Plugin will try to access working directory of the previous
+build and copy contents of <code>allure-report\history</code> folder to the current report contents. At the moment history entry for
+test case stores information about up to 5 previous results.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_extensions">5.2.5. Extensions</h4>
 <div class="sect4">
 <h5 id="_job_dsl_plugin">Job DSL Plugin</h5>
 <div class="paragraph">
@@ -4482,6 +4471,57 @@ publishers {
         includeProperties(<span class="predefined-constant">true</span>)
         property(<span class="string"><span class="delimiter">'</span><span class="content">allure.issues.tracker.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">http://tracker.company.com/%s</span><span class="delimiter">'</span></span>)
         property(<span class="string"><span class="delimiter">'</span><span class="content">allure.tests.management.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">http://tms.company.com/%s</span><span class="delimiter">'</span></span>)
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_pipeline_plugin">Pipeline Plugin</h5>
+<div class="paragraph">
+<p>To add Allure report generation from pipeline steps one can use Pipeline Syntax builder
+to generate Allure step code. Note, that <code>commandline</code> parameter points to Allure Commandline
+installation name to use, if it is not provided, plugin will pick first suitable installation found automatically.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_pipeline_step_builder.png" alt="Pipeline step generation">
+</div>
+</div>
+<div class="paragraph">
+<p>which gives a pipeline script:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">node {
+<span class="comment">// script body</span>
+
+allure([
+         <span class="key">includeProperties</span>: <span class="predefined-constant">false</span>,
+         <span class="key">jdk</span>: <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+         <span class="key">properties</span>: [[<span class="key">key</span>: <span class="string"><span class="delimiter">'</span><span class="content">allure.issues.tracker.pattern</span><span class="delimiter">'</span></span>, <span class="key">value</span>: <span class="string"><span class="delimiter">'</span><span class="content">http://tracker.company.com/%s</span><span class="delimiter">'</span></span>]],
+         <span class="key">reportBuildPolicy</span>: <span class="string"><span class="delimiter">'</span><span class="content">ALWAYS</span><span class="delimiter">'</span></span>,
+         <span class="key">results</span>: [[<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">target/allure-results</span><span class="delimiter">'</span></span>], [<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">other_target/allure-results</span><span class="delimiter">'</span></span>]]
+         ])
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use Allure Report from the pipeline steps one can invoke Allure DSL method as script:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">stage(<span class="string"><span class="delimiter">'</span><span class="content">reports</span><span class="delimiter">'</span></span>) {
+    steps {
+    script {
+            allure([
+                    <span class="key">includeProperties</span>: <span class="predefined-constant">false</span>,
+                    <span class="key">jdk</span>: <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
+                    <span class="key">properties</span>: <span class="type">[]</span>,
+                    <span class="key">reportBuildPolicy</span>: <span class="string"><span class="delimiter">'</span><span class="content">ALWAYS</span><span class="delimiter">'</span></span>,
+                    <span class="key">results</span>: [[<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">target/allure-results</span><span class="delimiter">'</span></span>]]
+            ])
+    }
     }
 }</code></pre>
 </div>
@@ -4911,7 +4951,7 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-04-26 13:06:36 +00:00
+Last updated 2017-05-04 15:44:59 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
