@@ -561,6 +561,17 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_maven_4">5.6. Maven</a></li>
 </ul>
 </li>
+<li><a href="#_allure_plugins_system">6. Allure Plugins System</a>
+<ul class="sectlevel2">
+<li><a href="#_plugin_structure">6.1. Plugin structure</a></li>
+<li><a href="#_contents_of_allure_plugin_yml_file">6.2. Contents of allure-plugin.yml file</a></li>
+<li><a href="#_adding_allure_plugin_api_dependency">6.3. Adding allure-plugin-api dependency</a></li>
+<li><a href="#_plugin_distribution">6.4. Plugin distribution</a></li>
+<li><a href="#_enabling_a_plugin">6.5. Enabling a plugin</a></li>
+<li><a href="#_java_plugin_api_overview">6.6. Java Plugin API overview</a></li>
+<li><a href="#_js_plugin_api_overview">6.7. JS Plugin API overview</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -4237,34 +4248,52 @@ If you are want to use the report from different location you can use <strong>-o
 <h3 id="_jenkins">5.2. Jenkins</h3>
 <div class="sect3">
 <h4 id="_installation_8">5.2.1. Installation</h4>
-<div class="paragraph">
-<p>First part of installation guide concerns global installation of Allure plugin and it&#8217;s
-commandline tool. Note that unlike to previous versions Jenkins Allure Plugin since 2.11
-does not require to configure Jenkins Content Security Policy properties.</p>
-</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install the latest version of <a href="https://wiki.jenkins-ci.org/display/JENKINS/Allure+Plugin">Allure Plugin</a>
-from "Plugin Manager" page.</p>
+<p>Install <a href="https://wiki.jenkins-ci.org/display/JENKINS/Allure+Plugin">Allure Plugin</a> from "Plugin Manager Page".</p>
 </li>
 <li>
-<p>Open Plugin Advanced Settings (at <strong>&lt;your_jenkins_host&gt;/pluginManager/advanced</strong>).</p>
+<p>Open Plugin Advanced Settings <a href="http://&lt;jenkins_host&gt;/pluginManager/advanced" class="bare">http://&lt;jenkins_host&gt;/pluginManager/advanced</a>.</p>
 </li>
 <li>
 <p>Click "Check Updates" button on the bottom right corner of the page.</p>
 </li>
 <li>
-<p>Configure Allure Commandline from "Global Tools Configuration".</p>
+<p>Configure Allure Commandline from "Jenkins Configure Page".</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_install.jpeg" alt="Jenkins Plugin Install">
+</div>
+</div>
 </li>
 </ol>
 </div>
 <div class="sect4">
-<h5 id="_build_agents_have_connection_to_maven_repository_with_allure_distribution">Build agents have connection to Maven repository with Allure distribution</h5>
+<h5 id="_configure_jenkins_content_security">Configure Jenkins Content Security</h5>
+<div class="paragraph">
+<p>By default, Jenkins sets Content Security Policy for plugin pages. Allure requires less strict policy, you can set it via system property.</p>
+</div>
+<div class="paragraph">
+<p>If you haven&#8217;t done it before, add the following to Jenkins system properties configuration (you need to set both Hudson and Jenkins properties to make it works):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">&quot;-Dhudson.model.DirectoryBrowserSupport.CSP=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';&quot;
+&quot;-Djenkins.model.DirectoryBrowserSupport.CSP=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';&quot;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can read more about it in the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Configuring+Content+Security+Policy">Jenkins</a>
+docs and find details in <a href="https://github.com/allure-framework/allure-core/issues/715">issue #715</a> in the Github repository of allure-core.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_agents_have_connection_to_maven_central">Build agents have connection to maven central</h5>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open "Global Tool Configuration".</p>
+<p>Open "Jenkins Configure Page".</p>
 </li>
 <li>
 <p>Find "Allure Commandline" configuration block.</p>
@@ -4275,40 +4304,47 @@ from "Plugin Manager" page.</p>
 </div>
 </li>
 <li>
-<p>Click "Add Allure Commandline" button.</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_install.jpeg" alt="Install Allure Commandline">
-</div>
-</div>
-</li>
-<li>
-<p>Fill the name and choose the version in the "From Maven Central" dropdown.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_downloading_and_installing_allure_from_archive">Downloading and installing Allure from archive</h5>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Download latest version of allure-commandline.zip from the
-<a href="https://github.com/allure-framework/allure2/releases">github releases page</a>.</p>
-</li>
-<li>
-<p>Upload downloaded file to any file server. Build agents must have access to the file by url.</p>
-</li>
-<li>
-<p>Open "Global Tool Configuration". and find "Allure Commandline" configuration block.</p>
-</li>
-<li>
-<p>Click "Add Allure Commandline" button.</p>
+<p>Click "Allure Commandline Installations&#8230;&#8203;" button.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
 </div>
 </div>
+</li>
+<li>
+<p>Fill the name and choose the version of allure report.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_agents_have_not_connection_to_maven_central">Build agents have NOT connection to maven central</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest version of allure-commandline.zip from github.</p>
+</li>
+<li>
+<p>Upload downloaded file to any file server. Build agents must have access to the file by url. For example, <strong><a href="http://mycompany.com/allure-commandline.zip" class="bare">http://mycompany.com/allure-commandline.zip</a></strong></p>
+</li>
+<li>
+<p>Open "Jenkins Configure Page". and find "Allure Commandline" configuration block.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
+</div>
+</div>
+</li>
+<li>
+<p>Click "Allure Commandline Installations&#8230;&#8203;" button.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_install_cmd.jpeg" alt="Install Allure Commandline">
+</div>
+</div>
+</li>
+<li>
+<p>Click "Delete Installer" button.</p>
 </li>
 <li>
 <p>Click "Add Installer" and choose "Extract <strong>.zip/</strong>.tar.gz".</p>
@@ -4319,8 +4355,7 @@ from "Plugin Manager" page.</p>
 </div>
 </li>
 <li>
-<p>Fill the name and download url. Mind that Jenkins will check the provided url immediately and show a warning
-if it&#8217;s not available.</p>
+<p>Fill the name and download url.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/jenkins_plugin_fill_name_and_url.jpeg" alt="Install Allure Commanline">
@@ -4341,13 +4376,13 @@ if it&#8217;s not available.</p>
 <p>Open job configuration page.</p>
 </li>
 <li>
-<p>Ensure that your build generates some data in one of the formats digestible for Allure Commandline tool.</p>
+<p>Ensure that your build generates <a href="https://github.com/allure-framework/allure-core/wiki#gathering-information-about-tests">Allure XML files</a>.</p>
 </li>
 <li>
 <p>Add <strong>Allure Report</strong> post build action.</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_add_allure_report.jpeg" alt="Select "Allure Report" post-build action">
+<img src="images/jenkins_plugin_add_allure_report.jpeg" alt="Install Allure Commanline">
 </div>
 </div>
 </li>
@@ -4363,92 +4398,79 @@ if it&#8217;s not available.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_management_and_bug_tracking_systems_integrations">Test Management and Bug-Tracking systems integrations</h5>
-<div class="paragraph">
-<p>Currently all versions of Allure support setting of url patterns to make direct links
-to your TMS or bug-tracker available from the report. (Learn more about this integrations link-[here])
-It may be done by setting special system properties:</p>
-</div>
+<h5 id="_tms_integration">TMS integration</h5>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>allure.tests.management.pattern</strong> property:</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_setup_tms.jpeg" alt="Filling TMS link property">
-</div>
-</div>
+<p>Open Job Configure Page.</p>
 </li>
 <li>
-<p><strong>allure.issues.tracker.pattern</strong> property:</p>
+<p>Find Allure Report configuration section.</p>
+</li>
+<li>
+<p>Setup <strong>allure.tests.management.pattern</strong> property:</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_setup_tracker.jpeg" alt="Filling bug-tracker link property">
+<img src="images/jenkins_plugin_setup_tms.jpeg" alt="Install Allure Commanline">
 </div>
 </div>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p>in both patterns <strong>%s</strong> will be substituted for a string value obtained from the label added to test case.</p>
+</div>
+<div class="sect4">
+<h5 id="_issue_tracker_integration">Issue Tracker integration</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open Job Configure Page.</p>
+</li>
+<li>
+<p>Find Allure Report configuration section.</p>
+</li>
+<li>
+<p>Setup <strong>allure.issues.tracker.pattern</strong> property:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/jenkins_plugin_setup_tracker.jpeg" alt="Install Allure Commanline">
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_advanced_options_2">Advanced Options</h5>
-<div class="paragraph">
-<p>"Advanced&#8230;&#8203;" button provides you with several additional settings:</p>
-</div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>jdk to use</p>
+<p>Open Job Configure Page.</p>
 </li>
 <li>
-<p>build policy value</p>
+<p>Find Allure Report configuration section.</p>
 </li>
 <li>
-<p>include environment flag  - <strong>currently is not implemented</strong></p>
-</li>
-</ul>
-</div>
+<p>Click "Advanced&#8230;&#8203;" button if you need custom settings of commadline, jdk or build policy</p>
 <div class="imageblock">
 <div class="content">
-<img src="images/jenkins_plugin_advanced_options.jpeg" alt="Allure build step advanced options">
+<img src="images/jenkins_plugin_advanced_options.jpeg" alt="Install Allure Commanline">
 </div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_usage_7">5.2.3. Usage</h4>
 <div class="paragraph">
-<p>When build is finished a link to Allure report will appear on the build page and also in the build history entries:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_allure_sidebar.png" alt="Install Allure Commanline">
-</div>
-</div>
-<div class="paragraph">
-<p>Generated Allure report is stored in the artifacts folder of the build and can be processed
-the same way as all the other artifacts, or downloaded as .zip archive.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_allure_report.png" alt="install allure commanline">
-</div>
+<p>When build is finished a link to Allure report will appear on the build page:
+image::jenkins_plugin_allure_sidebar.png[Install Allure Commanline]
+image::jenkins_plugin_allure_report.png[install allure commanline]</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_history_files">5.2.4. History files</h4>
-<div class="paragraph">
-<p>Allure since version 2 supports history for tests in the report [Learn more about History plugin].
-At the every report generation during the build Jenkins Allure Plugin will try to access working directory of the previous
-build and copy contents of <code>allure-report\history</code> folder to the current report contents. At the moment history entry for
-test case stores information about up to 5 previous results.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_extensions">5.2.5. Extensions</h4>
+<h4 id="_extensions">5.2.4. Extensions</h4>
 <div class="sect4">
 <h5 id="_job_dsl_plugin">Job DSL Plugin</h5>
 <div class="paragraph">
@@ -4471,57 +4493,6 @@ publishers {
         includeProperties(<span class="predefined-constant">true</span>)
         property(<span class="string"><span class="delimiter">'</span><span class="content">allure.issues.tracker.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">http://tracker.company.com/%s</span><span class="delimiter">'</span></span>)
         property(<span class="string"><span class="delimiter">'</span><span class="content">allure.tests.management.pattern</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">http://tms.company.com/%s</span><span class="delimiter">'</span></span>)
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_pipeline_plugin">Pipeline Plugin</h5>
-<div class="paragraph">
-<p>To add Allure report generation from pipeline steps one can use Pipeline Syntax builder
-to generate Allure step code. Note, that <code>commandline</code> parameter points to Allure Commandline
-installation name to use, if it is not provided, plugin will pick first suitable installation found automatically.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/jenkins_plugin_pipeline_step_builder.png" alt="Pipeline step generation">
-</div>
-</div>
-<div class="paragraph">
-<p>which gives a pipeline script:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">node {
-<span class="comment">// script body</span>
-
-allure([
-         <span class="key">includeProperties</span>: <span class="predefined-constant">false</span>,
-         <span class="key">jdk</span>: <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-         <span class="key">properties</span>: [[<span class="key">key</span>: <span class="string"><span class="delimiter">'</span><span class="content">allure.issues.tracker.pattern</span><span class="delimiter">'</span></span>, <span class="key">value</span>: <span class="string"><span class="delimiter">'</span><span class="content">http://tracker.company.com/%s</span><span class="delimiter">'</span></span>]],
-         <span class="key">reportBuildPolicy</span>: <span class="string"><span class="delimiter">'</span><span class="content">ALWAYS</span><span class="delimiter">'</span></span>,
-         <span class="key">results</span>: [[<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">target/allure-results</span><span class="delimiter">'</span></span>], [<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">other_target/allure-results</span><span class="delimiter">'</span></span>]]
-         ])
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To use Allure Report from the pipeline steps one can invoke Allure DSL method as script:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">stage(<span class="string"><span class="delimiter">'</span><span class="content">reports</span><span class="delimiter">'</span></span>) {
-    steps {
-    script {
-            allure([
-                    <span class="key">includeProperties</span>: <span class="predefined-constant">false</span>,
-                    <span class="key">jdk</span>: <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>,
-                    <span class="key">properties</span>: <span class="type">[]</span>,
-                    <span class="key">reportBuildPolicy</span>: <span class="string"><span class="delimiter">'</span><span class="content">ALWAYS</span><span class="delimiter">'</span></span>,
-                    <span class="key">results</span>: [[<span class="key">path</span>: <span class="string"><span class="delimiter">'</span><span class="content">target/allure-results</span><span class="delimiter">'</span></span>]]
-            ])
-    }
     }
 }</code></pre>
 </div>
@@ -4948,10 +4919,735 @@ or absolute (absolute only for report mojo). Will be ignored for bulk mojo.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_allure_plugins_system">6. Allure Plugins System</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Allure is designed to be highly customizable, because practice shows that many teams across the world
+may have different metrics, or may have developed unique approaches for testing, their products might demand
+something completely different to the initial requirements Allure was built to comply. To deal with this
+kinds of challenges Allure has a plugin system, that gives a lot of flexibility to the report representation.</p>
+</div>
+<div class="paragraph">
+<p>To be precise, all of the basic functionality is modularized into plugins, and it would be too lengthy to list
+them all here. But nearly every feature described in the features section [link to allure features section]
+ is implemented internally as a plugin.</p>
+</div>
+<div class="sect2">
+<h3 id="_plugin_structure">6.1. Plugin structure</h3>
+<div class="paragraph">
+<p>Basically, any plugin will be constituted of two main parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Java classes</strong> that process the report data and produce some results in the report folder.</p>
+</li>
+<li>
+<p><strong>JS script</strong> that takes stored results and creates a representation for them on the report&#8217;s front-end side,
+e.g. a widget or an additional tab.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Typical structure of a plugin module would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/my-plugin
+    /src
+        /dist
+            /static
+            allure-plugin.yml
+        /main
+            /java
+                /my.company.plugin
+    build.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here in <code>src\dist\static</code> all the static <code>.js</code> and <code>.css</code> files are stored, and everything under <code>src\main\java</code>
+is a data processing Java code. <code>allure-plugin.yml</code> - is a configuration file.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contents_of_allure_plugin_yml_file">6.2. Contents of allure-plugin.yml file</h3>
+<div class="paragraph">
+<p>This file contains directives in human-readable format that plugin loader will further use to locate resources
+ and connect the plugin.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="key">id</span>: <span class="string"><span class="content">my-plugin</span></span>
+<span class="key">name</span>: <span class="string"><span class="content">Plugin name goes here</span></span>
+<span class="key">description</span>: <span class="string"><span class="content">More detailed explanation of what does this plugin do.</span></span>
+<span class="key">extensions</span>:
+- <span class="string"><span class="content">my.company.allure.CustomPlugin // - Fully qualified names of classes that implement `Extension` interface and comprise data processing functionality.</span></span>
+- <span class="string"><span class="content">my.company.allure.CustomWidget</span></span>
+<span class="key">jsFiles</span>:
+- <span class="string"><span class="content">index.js</span></span>
+<span class="key">cssFiles</span>:
+- <span class="string"><span class="content">styles.css</span></span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_allure_plugin_api_dependency">6.3. Adding allure-plugin-api dependency</h3>
+<div class="paragraph">
+<p>To be able to use the API you should simply download the <code>allure-plugin-api</code> dependency
+<a href="https://mvnrepository.com/artifact/io.qameta.allure/allure-plugin-api">from</a> the jcenter repository.
+To do so add to your project build script:</p>
+</div>
+<div class="paragraph">
+<p>in Gradle:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+    compileOnly(<span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure:allure-plugin-api:${allureVersion}</span><span class="delimiter">'</span></span>)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>in Maven:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>io.qameta.allure<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>allure-plugin-api<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>${allureVersion}<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;scope&gt;</span>provided<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_plugin_distribution">6.4. Plugin distribution</h3>
+<div class="paragraph">
+<p>When you build a plugin, you should come up with the following structure, which then can be copied into <code>plugins</code> folder
+of the commandline distribution.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>\my-plugin
+    allure-plugin.yml
+    plugin.jar
+    \lib
+        dependency.jar
+    \static
+        styles.css
+        index.js</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>plugin.jar</strong> - is a jar with your compiled plugin classes</p>
+</li>
+<li>
+<p><strong>\lib</strong> - all of your pugin&#8217;s dependencies should be placed in here</p>
+</li>
+<li>
+<p><strong>\static</strong> - a folder containing all static <code>.js</code> and <code>.css</code> files.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is a template of gradle build script for a plugin project that uses
+<a href="https://docs.gradle.org/current/userguide/javaLibraryDistribution_plugin.html">Java Library Distribution Plugin</a>
+to package plugin classes and copy files and dependencies into one .zip archive.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">repositories {
+    jcenter()
+}
+
+apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java-library-distribution</span><span class="delimiter">'</span></span>
+
+jar {
+    archiveName = <span class="string"><span class="delimiter">'</span><span class="content">plugin.jar</span><span class="delimiter">'</span></span>
+}
+
+dependencies {
+    compileOnly(<span class="string"><span class="delimiter">'</span><span class="content">io.qameta.allure:allure-plugin-api:2.0-BETA8</span><span class="delimiter">'</span></span>)
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_a_plugin">6.5. Enabling a plugin</h3>
+<div class="paragraph">
+<p>Allure commandline distribution has a following folder structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/allure-commandline
+    /bin
+    /config
+        allure.yml
+    /lib
+    /plugins
+        /behaviors-plugin
+        /junit-plugin
+        /screen-diff-plugin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here in <code>plugins</code> folder plugins distributions to use at the report generation reside. By default several plugins
+are already added to the Allure. Their usage is managed by default build profile configuration file`/config/allure.yml`.
+In this file, under the section <code>plugins</code> plugin folders to use are listed, so it&#8217;s contents should look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="error">allure.yml</span>
+<span class="head"><span class="head">---</span></span>-
+<span class="key">plugins</span>:
+  - <span class="string"><span class="content">behaviors-plugin</span></span>
+  - <span class="string"><span class="content">junit-plugin</span></span>
+  - <span class="string"><span class="content">screen-diff-plugin</span></span>
+<span class="head"><span class="head">---</span></span>-</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To enable your own plugin, copy folder with distribution to the <code>plugins</code> folder
+and then add the folder&#8217;s name to the corresponding build profile configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>/allure-commandline
+    /bin
+    /config
+        allure.yml
+    /lib
+    /plugins
+        /behaviors-plugin
+        /junit-plugin
+        /screen-diff-plugin
+        /my-plugin</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="error">allure.yml</span>
+<span class="head"><span class="head">---</span></span>-
+<span class="key">plugins</span>:
+  - <span class="string"><span class="content">behaviors-plugin</span></span>
+  - <span class="string"><span class="content">junit-plugin</span></span>
+  - <span class="string"><span class="content">screen-diff-plugin</span></span>
+  - <span class="string"><span class="content">my-plugin</span></span>
+<span class="head"><span class="head">---</span></span>-</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java_plugin_api_overview">6.6. Java Plugin API overview</h3>
+<div class="paragraph">
+<p>Let&#8217;s take a look into the class diagram of the top classes in the Allure plugins system.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_api_uml_diagram.png" alt="Top interfaces hierarchy">
+</div>
+</div>
+<div class="paragraph">
+<p>Plugin classes can extend 3 basic interfaces that provide different aspects of functionality:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Reader</strong> allows to implement a <code>readResults</code> method, which defines the logic of reading results with <code>ResultsVisitor</code>
+instance from the directory with test results.</p>
+</li>
+<li>
+<p><strong>Aggregator</strong> allows to implement <code>aggregate</code> method, which defines the logic of aggregating processed results across
+all the results folders, and write resulting data to the report directory.</p>
+</li>
+<li>
+<p><strong>Widget</strong> this interface allows to implement <code>getData</code> method which again defines the logic of processed results aggregation
+but this time resulting data is saved into the <code>widget.json</code> file to be used by the widget named accordingly to the value
+supplied in <code>getName</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A fourth, <strong>Context&lt;T&gt;</strong> interface with <code>T getValue()</code> method enables to create some utility class to be used for all
+ plugins via a method <code>Configuration.requireContext(Class&lt;T&gt;)</code> available from a Configuration instance, provided as
+ a parameter in all of the 3 methods above.</p>
+</div>
+<div class="paragraph">
+<p>A quick example of such an utility class would be <code>JacksonContext</code>, which is used to obtain an <code>ObjectMapper</code> instance
+ allowing to serialize Java objects with data into the report JSON files.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">JacksonContext</span> <span class="directive">implements</span> <span class="predefined-type">Context</span>&lt;ObjectMapper&gt; {
+
+    <span class="directive">private</span> <span class="directive">final</span> ObjectMapper mapper;
+
+    <span class="directive">public</span> JacksonContext() {
+        <span class="local-variable">this</span>.mapper = <span class="keyword">new</span> ObjectMapper()
+                .configure(MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, <span class="predefined-constant">true</span>)
+                .setAnnotationIntrospector(<span class="keyword">new</span> JaxbAnnotationIntrospector(TypeFactory.defaultInstance()))
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> ObjectMapper getValue() {
+        <span class="keyword">return</span> mapper;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, from a plugin class it can be used as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+<span class="directive">public</span> <span class="type">void</span> aggregate(<span class="directive">final</span> <span class="predefined-type">Configuration</span> configuration,
+                      <span class="directive">final</span> <span class="predefined-type">List</span>&lt;LaunchResults&gt; launchesResults,
+                      <span class="directive">final</span> Path outputDirectory) <span class="directive">throws</span> <span class="exception">IOException</span> {
+       <span class="directive">final</span> JacksonContext context = configuration.requireContext(JacksonContext.class);
+       <span class="directive">final</span> Path file = outputDirectory.resolve(FILE_NAME);
+       <span class="keyword">try</span> (<span class="predefined-type">OutputStream</span> os = Files.newOutputStream(file)) {
+           context.getValue().writeValue(os, getData(launchesResults));
+       }
+ }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will cover all other classes by examples down below.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_js_plugin_api_overview">6.7. JS Plugin API overview</h3>
+<div class="paragraph">
+<p>Front-end side of the Allure is built using <a href="http://backbonejs.org/">BackboneJS</a> framework. So some basic
+understanding of it&#8217;s internal mechanisms may sometimes be necessary.</p>
+</div>
+<div class="paragraph">
+<p>Api is accessible from the <code>allure.api</code> global object. Let&#8217;s take a look at the list of functions it provides:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addTab(tabName, {title, icon, route, onEnter = notFound} = {})</code> - can be used to define a new tab for the report
+which will appear on the left pane menu with name <strong>tabName</strong>, it&#8217;s icon will be defined by a css styles provided
+in the <strong>icon</strong> string, <strong>route</strong> will define an address for a new tab page. <strong>onEnter</strong> should be a function, that
+instantiates a View class managing your new tab&#8217;s representation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the following example we will add a new tab with a 'Hello World' text for a report:</p>
+</div>
+<div class="paragraph">
+<p>Firstly, you need to extend a View class from the base <code>AppLayout</code> class that already contains report&#8217;s left
+navigational menu, for your new tab. It is provided in the global <code>allure</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="reserved">class</span> MyLayout <span class="reserved">extends</span> allure.components.AppLayout {
+    initialize(data) {
+        <span class="local-variable">this</span>.data = data
+    }
+
+    getContentView() {
+        <span class="keyword">return</span> <span class="keyword">new</span> MyView(<span class="local-variable">this</span>.data);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this class you can override a <code>getContentView</code> method to define some other View class that will manage the
+contents of your tab. Here is some simplistic implementation of a View with a title and some text.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> MyView = Backbone.Marionette.View.extend({
+    <span class="function">template</span>: <span class="keyword">function</span> (data) {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">'</span><span class="content">&lt;h3 class=&quot;pane__title&quot;&gt;</span><span class="delimiter">'</span></span> + data.name + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/h3&gt;</span><span class="delimiter">'</span></span> +
+            <span class="string"><span class="delimiter">'</span><span class="content">&lt;div&gt;</span><span class="delimiter">'</span></span> + data.text + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/div&gt;</span><span class="delimiter">'</span></span>;
+    },
+    <span class="function">render</span>: <span class="keyword">function</span> () {
+        <span class="local-variable">this</span>.<span class="predefined">$el</span>.html(<span class="local-variable">this</span>.template(<span class="local-variable">this</span>.options));
+        <span class="keyword">return</span> <span class="local-variable">this</span>;
+    }
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After all that add <code>addTab</code> function call would look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">allure.api.addTab(<span class="string"><span class="delimiter">'</span><span class="content">mytab</span><span class="delimiter">'</span></span>, {
+    <span class="key">title</span>: <span class="string"><span class="delimiter">'</span><span class="content">My Tab</span><span class="delimiter">'</span></span>, <span class="key">icon</span>: <span class="string"><span class="delimiter">'</span><span class="content">fa fa-trophy</span><span class="delimiter">'</span></span>,
+    <span class="key">route</span>: <span class="string"><span class="delimiter">'</span><span class="content">mytab</span><span class="delimiter">'</span></span>,
+    <span class="key">onEnter</span>: (<span class="keyword">function</span> () {
+        <span class="keyword">return</span> <span class="keyword">new</span> MyLayout({<span class="key">name</span>: <span class="string"><span class="delimiter">'</span><span class="content">My Tab</span><span class="delimiter">'</span></span>, <span class="key">text</span>: <span class="string"><span class="delimiter">'</span><span class="content">Hello World!</span><span class="delimiter">'</span></span>})
+    })
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which will finally give you a new tab:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/plugins_add_tab_example.png" alt="Hello world tab example">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addTranslation(lang, json)</code> - gives you an ability to support multiple languages for naming in tabs, widgets or
+test case blocks you&#8217;ve created. <strong>lang</strong> is a language key, and <strong>json</strong> is a json object that contains mappings for string
+values in the specified language.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Returning to the tab example, it&#8217;s very easy to make it start using translated strings.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">allure.api.addTranslation(<span class="string"><span class="delimiter">'</span><span class="content">en</span><span class="delimiter">'</span></span>, {
+    <span class="key">tab</span>: {
+        <span class="key">mytab</span>: {
+            <span class="key">name</span>: <span class="string"><span class="delimiter">'</span><span class="content">New tab</span><span class="delimiter">'</span></span>,
+            <span class="key">text</span>: <span class="string"><span class="delimiter">'</span><span class="content">Hello World!
+        }
+    },
+});
+
+allure.api.addTranslation(</span><span class="delimiter">'</span></span>ru<span class="string"><span class="delimiter">'</span><span class="content">, {
+    tab: {
+        mytab: {
+            name: </span><span class="delimiter">'</span></span><span class="error">Н</span><span class="error">о</span><span class="error">в</span><span class="error">а</span><span class="error">я</span> <span class="error">в</span><span class="error">к</span><span class="error">л</span><span class="error">а</span><span class="error">д</span><span class="error">к</span><span class="error">а</span><span class="string"><span class="delimiter">'</span><span class="content">,
+            text: </span><span class="delimiter">'</span></span><span class="error">З</span><span class="error">д</span><span class="error">р</span><span class="error">а</span><span class="error">в</span><span class="error">с</span><span class="error">т</span><span class="error">в</span><span class="error">у</span><span class="error">й</span>, <span class="error">м</span><span class="error">и</span><span class="error">р</span>!<span class="string"><span class="delimiter">'</span><span class="content">
+        }
+    },
+});
+
+allure.api.addTab(</span><span class="delimiter">'</span></span>mytab<span class="string"><span class="delimiter">'</span><span class="content">, {
+    title: </span><span class="delimiter">'</span></span>My Tab<span class="string"><span class="delimiter">'</span><span class="content">, icon: </span><span class="delimiter">'</span></span>fa fa-trophy<span class="string"><span class="delimiter">'</span><span class="content">,
+    route: </span><span class="delimiter">'</span></span>mytab<span class="string"><span class="delimiter">'</span><span class="content">,
+    onEnter: (function () {
+        return new MyLayout({name: </span><span class="delimiter">'</span></span>tab.mytab.name<span class="string"><span class="delimiter">'</span><span class="content">, text: </span><span class="delimiter">'</span></span>tab.mytab.name<span class="string"><span class="delimiter">'</span><span class="content">})
+    })
+});</span></span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>translate(name, options)</code> - is needed if you generate html code in your plugin and don&#8217;t use existing components,
+provided in <code>allure.components</code>. In the tab example above you have to wrap strings in the template in this function call
+to enable string translation to be picked up from the global registry.
+See more in the docs for <a href="https://www.npmjs.com/package/i18next-text">i18next</a>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="function">template</span>: <span class="keyword">function</span> (data) {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">'</span><span class="content">&lt;h3 class=&quot;pane__title&quot;&gt;</span><span class="delimiter">'</span></span> + allure.api.translate(data.name) + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/h3&gt;</span><span class="delimiter">'</span></span> +
+            <span class="string"><span class="delimiter">'</span><span class="content">&lt;div&gt;</span><span class="delimiter">'</span></span> + allure.api.translate(data.text) + <span class="string"><span class="delimiter">'</span><span class="content">&lt;/div&gt;</span><span class="delimiter">'</span></span>;
+    },</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addWidget(name, Widget)</code> - is a way to create a new widget on the Overview page of the report. <strong>name</strong> will define
+it&#8217;s displayed name, and <strong>Widget</strong> is a <code>View</code> to be added to the widgets grid.
+Api provides you with a base class for a widget at <code>allure.components.WidgetStatusView</code>, which we will examine
+later in the Behaviors plugin section. But you may design a widget for your own needs extending from
+<code>Backbone.Marionette.View</code>, just keep in mind that this widget definition is designed to pop up the data
+to fill the Model for this View from the <code>widgets.json</code> file, by the key you supplied in <strong>name</strong> parameter.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So designing your widget should require writing a Java plugin class that implements <code>Widget</code> interface, that produces
+the data to be stored in the <code>widgets.json</code> file.</p>
+</div>
+<div class="paragraph">
+<p>Suppose you have a java class that implements <code>getData</code> that outputs some list of key-value pairs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">MyPlugin.java
+----
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyPlugin</span> <span class="directive">implements</span> Widget {</code></pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>@Override
+    public Object getData(Configuration configuration, List&lt;LaunchResults&gt; launches) {
+        Map&lt;String, String&gt; catData = new HashMap&lt;&gt;();
+        catData.put("animal", "cat");
+        catData.put("sound", "meow");</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Map&lt;String, String&gt; dogData = new HashMap&lt;&gt;();
+dogData.put("animal", "dog");
+dogData.put("sound", "woof");</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    return Arrays.asList(catData, dogData);
+}</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    @Override
+    public String getName() {
+        return "mywidget";
+    }
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>That gives you an entry in the `widgets.json` when the report is generated:
+
+[source, json]
+widgets.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>{
+ "mywidget" : [ {
+    "sound" : "meow",
+    "animal" : "cat"
+  }, {
+    "sound" : "woof",
+    "animal" : "dog"
+  } ]
+}</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Then you are ready for the front-end side.
+
+[source, javascript]
+index.js</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>class MyWidget extends Backbone.Marionette.View {</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>template(data) {
+    var html = '&lt;h2 class="widget__title"&gt;My Widget&lt;/h2&gt;';
+    for(var item of data.items){
+        html += '&lt;span&gt;' + item.animal + '&lt;/span&gt;  :' + '&lt;span&gt;' + item.sound + '&lt;/span&gt;' + '&lt;br&gt;'
+    }
+    return html;
+}</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    serializeData() {
+        return {
+            items: this.model.get('items'),
+        }
+    }
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>allure.api.addWidget('mywidget', MyWidget);</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Note, that if you return the data from `getData` as a collection, it will subsequently be provided to the widget
+ as an array, that can be obtained as `this.model.get('items')`.
+
+That all finally gives us a new widget on the Overview dashboard.
+
+image::plugins_add_widget_example.png[A new widget on the Overview]
+
+* `addTestcaseBlock(view, {position})` - allows to add a View class to the Test Case page, in the one of 3 possible
+block groups, determined by a *position* argument. Position can be one of this values: `tag`, `after` or `before`.
+To understand what kind of information you may attach to the test case page, jump to the section with related
+features [jump to the features list]
+
+With this method you can define a View that you can assume will have a test case object as a Model available
+ at `this.model`.
+
+Internally, many Allure features are implemented using plugin api, let's see how for example links are added to the
+test case page.
+
+A View class:
+[source, javascript]
+LinksView.js</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>import './styles.css';
+import {View} from 'backbone.marionette';
+import {className} from '../../decorators';
+import template from './LinksView.hbs';</p>
+</div>
+<div class="paragraph">
+<p>@className('pane__section')
+class LinksView extends View {
+    template = template;</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    serializeData() {
+        return {
+            links: this.model.get('links')
+        };
+    }
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Handlebars is used as a template engine:
+
+[source, html]
+LinksView.hbs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>{{#if links}}
+    &lt;h3 class="pane__section-title"&gt;{{t 'testCase.links.name'}}&lt;/h3&gt;
+    {{#each links}}
+        &lt;span class="testcase-link"&gt;
+        {{#if (eq type "issue")}}
+            &lt;span class="fa fa-bug"&gt;&lt;/span&gt;
+        {{/if}}
+        {{#if (eq type "tms")}}
+            &lt;span class="fa fa-database"&gt;&lt;/span&gt;
+        {{/if}}
+        &lt;a class="link" href="{{this.url}}" target="_blank"&gt;{{name}}&lt;/a&gt;
+    &lt;/span&gt;
+    {{/each}}
+{{/if}}</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[source, javascript]
+index.js</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>import LinksView from './LinksView';</p>
+</div>
+<div class="paragraph">
+<p>allure.api.addTestcaseBlock(LinksView, {position: 'before'});</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Which adds a links section to the test case:
+image::plugins_add_testcase_block_example.png
+
+=== Existing plugins
+Several important Allure features are implemented as decoupled plugins that are stored independently under
+the `plugins` folder of Allure Commandline distribution. Their usage can be managed by build profiles functionality
+(jump to the (link to the section)[Commandline configuration]).
+
+
+==== Custom Logo
+
+Let's start with studuying how one of the simplest plugins works. In this section we will quickly
+examine a plugin available in the Allure distribution which allows you to change a logo picture shown in
+the upper-left corner of the report.
+
+image::plugins_custom_logo.png[Custom logo in the report]
+
+plugin sources directory structure:
+
+[source]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>/src
+    /dist
+        allure-plugin.yml
+        /static
+            custom-logo.svg
+            styles.css
+    build.gradle</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Contents of `allure-plugin.yml`:
+
+[source, yml]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>id: custom-logo
+name: Custom logo aggregator
+description: The aggregator replaces default Allure logo with a custom one
+cssFiles:
+  - styles.css</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>* *custom-logo.svg* - is a vector graphics file with a logo to use
+* *styles.css* - a css file that adds the style, that will override default logotype.
+
+Contents of `styles.css`:
+
+[source, css]</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="title">side-nav__brand {</div>
+<div class="content">
+<pre>  background: url('custom-logo.svg') no-repeat left center;
+  margin-left: 10px;
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>==== Behaviors
+
+Behaviors plugin is created to support behavior-driven approach in testing with Allure report.
+Test cases should have Feature and Story labels, that plugin will aggregate and create a widget
+showing statistics of stories results per every feature, and a new tab, where all test results are
+grouped by their features and stories.
+
+
+==== Junit
+
+Junit plugin works without a front-end part, it is created to enable Allure generator to process junit report xml format
+into the Allure test results, this plugin is enabled by default, so when you use `allure generate` command for a folder
+with junit test results, a report will be generated.
+
+==== Screen Diff
+
+
+:leveloffset!:</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-05-08 19:52:59 +00:00
+Last updated 2017-05-08 19:56:59 +00:00
 </div>
 </div>
 <!-- Yandex.Metrika counter -->
