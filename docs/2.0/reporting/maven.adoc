@@ -1,7 +1,14 @@
 = Maven
 
+Мы рекомендуем воспользоваться allure-command-line(ссылка).
+Аналогичное можно сделать с помощью нашего плагина для maven.
+Или можно генерировать отчёт средствами maven.
+Для этого нужно подключить наш плагин и в фазу site будет построен отчёт.
+
 == Installation
 Add allure-maven-plugin to your pom.xml file.
+Важно добавить про репортинг секцию.
+Вот прямо на сайте мавене можно скопировать https://maven.apache.org/plugins/maven-site-plugin/examples/configuring-reports.html
 
 [source, xml]
 .pom.xml
@@ -25,29 +32,39 @@ Add allure-maven-plugin to your pom.xml file.
 === Properties handling
 
 Since 2.5 there is ability to configure report generation. There is few ways to do it:
+# вот тут про версию говорится, может сразу её и указывать в предыдущей секции? а то там без версии.
 
 ==== Directly from source code
 Put **allure.properties** (**report.properties** for Allure 1.5 or above) to classpath.
-Both compile *class* path and *test class* path are supported.
+Both compile *class* path and *test class* path are supported. (вот этой строчки не очень понял, тест класспас это как?)
 
 ==== Or specify the *properties* in configuration
+# Or specify the *properties* in (plugin?) configuration <-
 [source, xml]
 .pom.xml
 ----
-<configuration>
-   <properties>
-       <allure.issues.tracker.pattern>http://example.com/%s</allure.issues.tracker.pattern>
-   </properties>
-</configuration>
+<plugin>
+    <groupId>ru.yandex.qatools.allure</groupId>
+    <artifactId>allure-maven-plugin</artifactId>
+    <configuration>
+       <properties>
+           <allure.issues.tracker.pattern>http://example.com/%s</allure.issues.tracker.pattern>
+       </properties>
+    </configuration>
+</plugin>
 ----
 
 ==== Or specify the *propertiesFilePath*
 [source, xml]
 .pom.xml
 ----
-<configuration>
-   <propertiesFilePath>path/to/your/allure.properties</propertiesFilePath>
-</configuration>
+<plugin>
+    <groupId>ru.yandex.qatools.allure</groupId>
+    <artifactId>allure-maven-plugin</artifactId>
+    <configuration>
+       <propertiesFilePath>path/to/your/allure.properties</propertiesFilePath>
+    </configuration>
+</plugin>
 ----
 
 === Results Directory

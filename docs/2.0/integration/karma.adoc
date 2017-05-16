@@ -64,12 +64,12 @@ All functions available as methods of the global `allure` object.
  Step function can be nested within one another.
  It is most powerful feature of allure, because it allow to write self-documented tests which report about every its step.
 
-See the https://github.com/allure-framework/allure/blob/master/docs/dictionary.md[docs]
+See the https://github.com/allure-framework/allure/blob/master/docs/dictionary.md[docs] #(Битая ссылка)
  in core project for more information about these features and their purpose.
 
 == Example
 There is an https://github.com/allure-examples/allure-karma-example[example project], where you may look to allure-reporter in action.
 
-For more information about Allure see the https://github.com/allure-framework/allure[allure core] project.
+For more information about Allure see the https://github.com/allure-framework/allure[allure core] project. (#Ссылка на аллюр 1, надо на второй)
 
 For more information about Karma see the http://karma-runner.github.com/[Karma homepage].

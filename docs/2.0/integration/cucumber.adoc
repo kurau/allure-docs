@@ -1,6 +1,8 @@
 = Cucumber
 This page describes Allure adaptor usage for http://cukes.info/[Cucumber] framework.
 
+#Пример?
+
 == Installation
 Add this line to your application's Gemfile:
 
@@ -110,3 +112,7 @@ You can also https://github.com/allure-framework/allure-core/wiki/Glossary#attac
 This adapter only generates XML files containing information about tests. See
 https://github.com/allure-framework/allure-core/wiki#generating-report[wiki section]
  on how to generate report.
+
+Вот я хз, может также как в остальных сделать? Думаю везде нужно скопипастить
+что вот есть командлайн и нужно построить так.
+и конкретно указать ссылку на остальные

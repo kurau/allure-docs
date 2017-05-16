@@ -5,6 +5,7 @@ This is an official http://codeception.com/[Codeception] adapter for Allure Fram
 The main purpose of this adapter is to accumulate information about your tests and write it out to a set of XML
 files: one for each test class. This adapter only generates XML files containing information about tests.
 See https://github.com/allure-framework/allure-core/wiki#generating-report[wiki section] on how to generate report.
+#Походу тут не нужна ссылка на вики о том как создать репорт, мы же тут это пишем?
 
 == Example project
 Example project is located at: https://github.com/allure-examples/allure-codeception-example
@@ -41,6 +42,7 @@ an absolute path. You can traverse up using `..` as usual. `outputDirectory` def
 
 To generate report from your favourite terminal, https://github.com/allure-framework/allure-cli#installation[install]
  allure-cli and run following command (assuming you're in project root and using default configuration):
+# allure-cli наверно больше нет, есть allure-command-line? или это какие то независимые вещи?
 
 [source , bash]
 ----
@@ -51,3 +53,4 @@ Report will be generated in `tests/_output/allure-report`.
 
 == Main features
 See respective https://github.com/allure-framework/allure-phpunit#advanced-features[PHPUnit] section.
+№ чисто для самообразования, как это связано?)

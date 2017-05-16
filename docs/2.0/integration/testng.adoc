@@ -5,11 +5,24 @@ An Allure report can be generated for any TestNG test. In order to get test resu
 * Add **allure-java** dependency. Note, you may need to build link:https://github.com/allure-framework/allure-java[allure-java] manually to get a SNAPSHOT version of the artefact
 * Add **aspectjweaver** dependency and its properties.
 * Run tests.
+# тут как в junit сделать
+1. Подключить адаптер.
+Он даст возможность перехватывать события происходящие в JUnit, такие как начало, конец и результат теста.
+2. Настроить surefire плагин.
+Здесь мы подключаем аспектj вивер, который позволяет записать в отчёт следующие фичи (ссылка на низ документа Features).
+3. Запустить тесты
+4. Установить allure-command-line для генерации отчёта.
+?5. Думаю надо сюда добавить альтернативное построение отчёта см тут (ссылка на репортинг)
+
+== Example?
 
 == Installation
 
 === Maven
 You need to add the following to your **pom.xml**:
+
+0. Настройки для аллюра можно хранить отдельно с остальными
+# Так посмотрел в другие метса, это очень похоже на самостоятеьную секцию CONFIGURATION
 
 [source, xml]
 .pom.xml
@@ -31,14 +44,27 @@ You need to add the following to your **pom.xml**:
         https://github.com/allure-framework/allure-docs/issues/{}
     </issues.tracker>
 </properties>
+----
 
+1. Добавляем адаптер
+
+[source, xml]
+----
 <dependencies>
     <dependency>
         <groupId>io.qameta.allure</groupId>
         <artifactId>allure-testng</artifactId>
         <version>${allure.version}</version>
+        #вот тут у меня не тянется ничего где взять? 2.0-SNAPSHOT
     </dependency>
 </dependencies>
+
+----
+
+2. Настраиваем плагин
+
+[source, xml]
+----
 
 <build>
     <plugins>
@@ -97,6 +123,7 @@ You need to add the following to your **pom.xml**:
 </build>
 ----
 
+3.
 Then run the build as usual:
 
 [source, bash]
@@ -104,6 +131,7 @@ Then run the build as usual:
 $ mvn clean test
 ----
 
+4.
 Allure results will appear in **target/allure-results** folder. To generate html report and automatically open it in a web browser, run the following command:
 [source, bash]
 ----
@@ -111,7 +139,7 @@ $ allure serve target/allure-results
 ----
 
 === Gradle
-You need to add the following to **build.gradle**:
+You need to add the following sections to **build.gradle**:
 
 [source, groovy]
 .build.gradle
@@ -124,12 +152,22 @@ targetCompatibility = JavaVersion.VERSION_1_8
 configurations {
     agent
 }
+----
 
+1. Добавляем зависимости
+
+[source, groovy]
+----
 dependencies {
     agent "org.aspectj:aspectjweaver:1.8.10"
     compile "io.qameta.allure:allure-testng:1.0-SNAPSHOT"
 }
+----
 
+2. Настраиваем плагин
+
+[source, groovy]
+----
 test.doFirst {
     jvmArgs "-javaagent:${configurations.agent.singleFile}"
 }
@@ -145,6 +183,7 @@ test {
 }
 ----
 
+3.
 Then run the build as usual:
 
 [source, bash]
@@ -152,6 +191,7 @@ Then run the build as usual:
 $ ./gradlew clean test
 ----
 
+4.
 Allure results will appear in **build/allure-results** folder. To generate html report and automatically open it in a web browser, run the following command:
 [source, bash]
 ----

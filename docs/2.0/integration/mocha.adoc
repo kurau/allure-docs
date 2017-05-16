@@ -23,12 +23,15 @@ Then use it as any other mocha reporter:
 mocha --reporter mocha-allure-reporter
 ----
 
+# Тут надо указать куда по дефолту положится и как его сгенерить через команд лайн
+
 After running tests you will get raw tests result into `allure-results` directory.
 See https://github.com/allure-framework/allure-core/wiki#generating-a-report[generator list] on how to make a report from raw results.
 
+# Просто секцию == Example
 Also check out https://github.com/allure-examples/mocha-allure-example[mocha-allure-example] to see it in action.
 
-== Supported options
+== Supported options (Вот, это нужно поднять в запуск тестов и построение отчёта)
 * targetDir _(string)_ – directory where test results will be stored
 
 == Runtime API

@@ -2,7 +2,7 @@
 
 To generate your first report you will need to go through just a few simple steps:
 
- * Downloading and installing Allure commandline application suitable for your environment.
+ * Downloading and installing Allure commandline application suitable for your environment. #kurau: хз, вроде и так понятно, что под каждую систему по разному
  * Locating test execution data that you have to build a report on.
 
 == Installing a commandline
@@ -24,6 +24,7 @@ For Mas OS, automated installation is available via Homebrew
 brew tap qatools/formulas
 brew install allure-commandline
 ----
+#kurau: у меня ставится 1.4.23, я хз что делать
 
 === Windows
 Windows and other Unix distributions require manual installation:
@@ -31,6 +32,7 @@ Windows and other Unix distributions require manual installation:
 . Download the latest version as zip archive from link:https://github.com/allure-framework/allure2/releases[releases page].
 . Unpack the archive to allure-commandline directory.
 . Navigate to *bin* directory.
+#kurau: а где она? что-то не понял что тут делать? бинарник жеж надо как то собрать?
 . Use *allure.bat* for Windows or *allure* for other Unix platforms.
 
 [WARNING]
@@ -56,6 +58,8 @@ stored in the `target/surefire-reports`:
 
 image::get_started_surefire-report.png["Surefire report folder"]
 
+#Вообще можно где-то положить тестовую xml, потому что не хочу искать искать у себя никаких xml, хочу посмотреть сразу.
+
 == Report generation
 
 This is already enough to see the Allure report in one command:
@@ -63,6 +67,7 @@ This is already enough to see the Allure report in one command:
 `allure serve /home/path/to/project/target/surefire-reports/`
 
 Which generates a report in temporary folder from the data found in the provided path
+#То есть в какую папку он сгенерит? для меня это больль всех генераторов/распаковщиков. Либо всё фигачит в текущую дир, либо что-то сам где-то создёт. Вопрос, как тут?
 and then creates a local Jetty server instance, serves generated report and opens it in the default browser.
 It is possible to use a *--profile* option to enable some pre-configured allure setting. *junit* profile is enabled
 by default, you will learn more about profiles in the following sections.
@@ -72,5 +77,7 @@ This would produce a report with a minimum of information extracted from the xml
 
 image::get_started_report_overview.png["Report generated on xml data"]
 
-
+== Configuration
+Пока не посмотрел всё, но где-то надо держать список того, что можно сконфигурировать.
+пока здесь чекну, чтобы не забыть
 

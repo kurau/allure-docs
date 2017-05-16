@@ -1,5 +1,9 @@
 = Cucumber JS
-WARNING: Allure report version supported : 1.4.15
+WARNING: Allure report version supported : 1.4.15  #Варнинг старый
+
+# Нужна вводная, можно во всех кукумберах одинакогво
+## А как тут installation + configuration?
+#Пример?
 
 == Usage:
 Add `reporter.js` file in feature packages with:

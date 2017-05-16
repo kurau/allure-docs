@@ -1,9 +1,30 @@
 = jUnit 4
 
+== Overview
+
+Аллюр можно подключить как отчёт для вашего проекта если вы пользуетесь системами сборками
+maven или gradle. В остальных случаях нельзя.
+
+Для подключения нужно сделать следующие шаги:
+
+1. Подключить адаптер.
+Он даст возможность перехватывать события происходящие в JUnit, такие как начало, конец и результат теста.
+2. Настроить surefire плагин.
+Здесь мы подключаем аспектj вивер, который позволяет записать в отчёт следующие фичи (ссылка на низ документа Features).
+3. Запустить тесты
+4. Установить allure-command-line для генерации веб страницы.
+
+
+== Example???
+
 == Installation
 
 === Maven
 You need to add the following to your *pom.xml*:
+
+0. Настройки храним отдельно
+#UPD Не плохо бы секцию CONFiGuRATION, или ссылку на отдельную страницу с конфигурацией.
+
 [source, xml]
 .pom.xml
 ----
@@ -12,15 +33,29 @@ You need to add the following to your *pom.xml*:
     <aspectj.version>1.7.4</aspectj.version>
     <allure.version>{latest-allure-version}</allure.version>
 </properties>
+...
+----
 
+1. Добавляем адаптер в зависимости
+
+[source, xml]
+----
 <dependencies>
+    ...
     <dependency>
         <groupId>ru.yandex.qatools.allure</groupId>
         <artifactId>allure-junit-adaptor</artifactId>
         <version>${allure.version}</version>
     </dependency>
+    ....
 </dependencies>
 
+----
+
+2. Настраиваем surefire плагин
+
+[source, xml]
+----
 <build>
     <plugins>
         <plugin>
@@ -58,6 +93,16 @@ Then run the build as usual:
 ----
 $ mvn clean test
 ----
+
+Create test:
+# allure serve ...
+
+=== Gradle
+
+Зависисмость
+Запуск тестов
+# mvn clean test
+# allure serve ...
 
 === Ant
 Right now using Allure with http://ant.apache.org[Ant] is not possible,
@@ -124,6 +169,7 @@ public class SearchTest {
 
 Description can be added in plain *text*, *HTML* or *Markdown* format - simply assign different **type** value.
 
+#А можно добавить просто без type по старинке?
 === Steps
 Steps are any actions that constitute a testing scenario. Steps can be used in different testing scenarios.
 They can: be parametrized, make checks, have nested steps, and create attachments. Each step has a name.
@@ -146,6 +192,7 @@ Step names support the following placeholders:
   to the first argument, 1 to the second, etc.). See example above.
 * *{method}* will be replaced by the annotated method name e.g. *openPageByAddress*
 
+#А можно и второй примерчик для метода написать
 Depending on the project layout, you can consider adding Allure dependency to the test scope only.
 
 === Attachments
@@ -220,6 +267,7 @@ public void testSomething() {
 ----
 
 === Parameters
+# А может ENV Parameters? А они не будут пересекаться с junit параметрами? + ссылка на старый репо
 In order to add information about test method
 https://github.com/allure-framework/allure-core/wiki/Glossary#parameter[parameters]
 you should use *@Parameter* annotation:
@@ -244,6 +292,8 @@ public class SearchTest {
 }
 ----
 
+#О, а как это выглядит? Интересно! Куда он будет отображаться или что там? Это же не параметризед?
+
 === Severity
 *@Severity* annotation is used in order to prioritize test methods by severity:
 [source, java]
@@ -264,6 +314,8 @@ public class SearchTest {
 
 }
 ----
+
+#А как этим пользоваться?
 
 === Behaviours Mapping
 In some development approaches tests are classified by
@@ -294,3 +346,5 @@ public class SearchTest {
 ----
 
 You will then be able to filter tests by specified features and stories in generated Allure report.
+
+# А это всё будет дублироваться? Какй юзкейс этого?

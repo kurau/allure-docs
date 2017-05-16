@@ -11,6 +11,10 @@ Example project is located at: https://github.com/allure-examples/allure-cucumbe
 === Maven
 Simply add `allure-cucumber-jvm` plugin as dependency to your project and add it to CucumberOptions:
 
+#Немного поехали отступы
+
+# Нужно тут про конфигурацию.
+
 ```xml
 <project>
 ...
@@ -18,10 +22,12 @@ Simply add `allure-cucumber-jvm` plugin as dependency to your project and add it
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber-jvm</artifactId>
-            <version>2.0-BETA2</version>
+            <version>2.0-BETA2</version> #Какая актуальная версия? Нужно будет везде её вставить
         </dependency>
     </dependencies>
-        <build>
+
+
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,6 +58,7 @@ placed in `allure-results` directory by default. It can be overridden by setting
 system property.
 
 == Features
+(#Почему-то где то есть, где то нет. Вижу что тут это важно, потому что по другому подключается.)
 This adapter provides runtime integration allowing conversion of Gherkin dsl features into basic Allure features
 
 === Title
